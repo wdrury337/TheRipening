@@ -1,8 +1,8 @@
 {
-  "name": "lower-case-dashed-name-of-project",
-  "repository": "REPOSITORY-NAME-AS-IT-APPEARS-IN-GITHUB-URL",
+  "name": "the-ripening",
+  "repository": "https://github.com/wdrury337/TheRipening/blob/main/README.md",
   "version": "0.1.0",
-  "title": "PROJECT TITLE HERE",
+  "title": "The Ripening",
   "description": "SHORT DESCRIPTION OF PROJECT HERE. ONE TO TWO SENTENCES MAX",
   "keywords": [
     "Princeton",
