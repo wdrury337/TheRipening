@@ -51,5 +51,45 @@ const windowResizeHandler = () => {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
 };
+
+const onKeyDown = (event) => {
+    const clock = scene.state.clock;
+    switch (event.key) {
+        case 'w': 
+            clock.state.moveForward = true;
+            break;
+        case 'a':
+            clock.state.moveLeft = true;
+            break;
+        case 's':
+            clock.state.moveBackward = true;
+            break;
+        case 'd': 
+            clock.state.moveRight = true;
+            break;
+    }
+};
+
+const onKeyUp = (event) => {
+    const clock = scene.state.clock;
+    switch (event.key) {
+        case 'w': 
+            console.log('w')
+            clock.state.moveForward = false;
+            break;
+        case 'a':
+            clock.state.moveLeft = false;
+            break;
+        case 's':
+            clock.state.moveBackward = false;
+            break;
+        case 'd': 
+            clock.state.moveRight = false;
+            break;
+    }
+};
+
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+window.addEventListener('keydown', onKeyDown);
+window.addEventListener('keyup', onKeyUp);

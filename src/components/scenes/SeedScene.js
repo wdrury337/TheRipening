@@ -2,7 +2,6 @@ import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
 import { Clock, Land, Banana } from 'objects';
 import { BasicLights } from 'lights';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 class SeedScene extends Scene {
     constructor() {
@@ -14,6 +13,7 @@ class SeedScene extends Scene {
             gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 1,
             updateList: [],
+            clock: undefined
         };
 
         // Set background to a nice color
@@ -24,14 +24,9 @@ class SeedScene extends Scene {
         const banana = new Banana(this);
         const lights = new BasicLights();
         const clock = new Clock(this);
-
-        const loader = new GLTFLoader();
-
-        //loader.load("\\src\\components\\objects\\Flower\\banana\\scene.gltf", (gltf) => {
-          //  this.add(gltf.scene);
-        //});
      
-        this.add(land, banana, lights, clock);
+        this.state.clock = clock;
+        this.add(clock, land, banana, lights);
 
         // Populate GUI
         //this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -49,7 +44,7 @@ class SeedScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
-
+        
         
     }
 }
