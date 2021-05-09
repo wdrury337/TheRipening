@@ -60,7 +60,6 @@ class Clock extends Group {
             this.position.z += .1
         }
 
-
         // Advance tween animations, if any exist
         TWEEN.update();
     }
