@@ -17,7 +17,7 @@ const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera
-camera.position.set(6, 3, -10);
+camera.position.set(0, 25, -70);
 camera.lookAt(new Vector3(0, 0, 0));
 
 // Set up renderer, canvas, and minor CSS adjustments
@@ -39,11 +39,11 @@ controls.update();
 // Set up global variables
 Global.camera = camera;
 Global.scene = scene; 
-Global.clock = scene.state.clock;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
+    camera.lookAt(Global.clock.position);
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
@@ -58,8 +58,9 @@ const windowResizeHandler = () => {
     camera.updateProjectionMatrix();
 };
 
+// Keydown handler
 const onKeyDown = (event) => {
-    const clock = scene.state.clock;
+    const clock = Global.clock;
     switch (event.key) {
         case 'w': 
             clock.state.moveForward = true;
@@ -76,8 +77,9 @@ const onKeyDown = (event) => {
     }
 };
 
+// Keyup Handler
 const onKeyUp = (event) => {
-    const clock = scene.state.clock;
+    const clock = Global.clock;
     switch (event.key) {
         case 'w': 
             clock.state.moveForward = false;
