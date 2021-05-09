@@ -1,8 +1,8 @@
 import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import MODEL from './land.gltf';
+//import MODEL from "\\src\\components\\objects\\Flower\\banana\\scene.gltf";
 
-class Land extends Group {
+class Clock extends Group {
     constructor() {
         // Call parent Group() constructor
         super();
@@ -10,10 +10,11 @@ class Land extends Group {
         const loader = new GLTFLoader();
 
         this.name = 'land';
-        loader.load(MODEL, (gltf) => {
+        loader.load("\\src\\components\\objects\\Clock\\clock.gltf", (gltf) => {
+            gltf.scene.scale.multiplyScalar(1 / 20);
             this.add(gltf.scene);
         });
     }
 }
 
-export default Land;
+export default Clock;

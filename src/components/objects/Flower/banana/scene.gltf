@@ -91,7 +91,7 @@
   "buffers": [
     {
       "byteLength": 13536,
-      "uri": "scene.bin"
+      "uri": "\\src\\components\\objects\\Flower\\banana\\scene.bin"
     }
   ],
   "materials": [
@@ -169,9 +169,9 @@
         -1.0,
         0.0,
         0.0,
+        -7.0,
         0.0,
-        0.0,
-        0.0,
+        -2.0,
         1.0
       ],
       "name": "Banana.fbx"
