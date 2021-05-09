@@ -6,6 +6,8 @@ export default {
     clock: null,
 
     // Constants
-    MOVEMENT_SPEED: .1
+    MOVEMENT_SPEED: .1,
+    CLOCK_ROTATION_OFFSET: .75 * Math.PI,
+    DISTANCE_TO_CAMERA: 10,
 
 };

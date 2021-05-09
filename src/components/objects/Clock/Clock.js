@@ -18,15 +18,14 @@ class Clock extends Group {
         };
 
         // Load object
-        // Object fetched from https://poly.google.com/view/6W1lwdXcafJ
+        // Object fetched from https://poly.google.com/view/4t8wFjBwJVI
         const loader = new GLTFLoader();
 
         this.name = 'clock';
         loader.load(MODEL, (gltf) => {
 
             // Add object to scene
-            console.log(gltf.scene);
-            gltf.scene.scale.set(.001, .001, .001);
+            gltf.scene.scale.set(.005, .005, .005);
             gltf.scene.position.set(0, 0, 0);
             this.add(gltf.scene);
 
@@ -54,10 +53,7 @@ class Clock extends Group {
         // Update clock to always face the camera position
         const cameraXY = new Vector3(Global.camera.position.x, 0, Global.camera.position.z); 
         this.lookAt(cameraXY);
-
-        this.boundingBox.setFromObject(this);
-        const helper = new Box3Helper(this.boundingBox, 0xFFFFFF);
-        this.add(helper);
+        this.rotateOnAxis(this.up, Global.CLOCK_ROTATION_OFFSET);
 
         const toClock = this.position.clone().sub(Global.camera.position);
         const dir = new Vector3(toClock.x, 0, toClock.z).normalize().multiplyScalar(Global.MOVEMENT_SPEED);
@@ -65,15 +61,25 @@ class Clock extends Group {
         // Handle events triggered by key presses
         if (this.state.moveForward) {
             this.position.add(dir);
+            const distToCamera = this.position.distanceTo(Global.camera.position);
+            if (distToCamera >= Global.DISTANCE_TO_CAMERA) {
+                Global.camera.position.add(dir);
+            }
         }
         if (this.state.moveBackward) {
             this.position.add(dir.clone().multiplyScalar(-1));
+            const distToCamera = this.position.distanceTo(Global.camera.position);
+            if (distToCamera <= Global.DISTANCE_TO_CAMERA) {
+                Global.camera.position.add(dir.clone().multiplyScalar(-1));
+            }
         }
         if (this.state.moveLeft) {
             this.position.add(dir.clone().cross(this.up).multiplyScalar(-1));
+            Global.camera.position.add(dir.clone().cross(this.up).multiplyScalar(-1));
         }
         if (this.state.moveRight) {
             this.position.add(dir.clone().cross(this.up));
+            Global.camera.position.add(dir.clone().cross(this.up));
         }
 
         // Advance tween animations, if any exist
