@@ -1,9 +1,9 @@
 import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import MODEL from './flower.gltf';
+import MODEL from './banana.gltf';
 
-class Flower extends Group {
+class Banana extends Group {
     constructor(parent) {
         // Call parent Group() constructor
         super();
@@ -19,8 +19,9 @@ class Flower extends Group {
         // Load object
         const loader = new GLTFLoader();
 
-        this.name = 'flower';
+        this.name = 'banana';
         loader.load(MODEL, (gltf) => {
+            gltf.scene.scale.multiplyScalar(1 / 1000);
             this.add(gltf.scene);
         });
 
@@ -69,4 +70,4 @@ class Flower extends Group {
     }
 }
 
-export default Flower;
+export default Banana;

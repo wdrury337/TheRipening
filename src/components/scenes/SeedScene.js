@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Flower, Land, Clock } from 'objects';
+import { Clock, Land, Banana } from 'objects';
 import { BasicLights } from 'lights';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -19,22 +19,22 @@ class SeedScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
 
-        // Add meshes to scene
+        // Add meshes ato scene
         const land = new Land();
-        const flower = new Flower(this);
+        const banana = new Banana(this);
         const lights = new BasicLights();
         const clock = new Clock(this);
 
         const loader = new GLTFLoader();
 
-        loader.load("\\src\\components\\objects\\Flower\\banana\\scene.gltf", (gltf) => {
-            this.add(gltf.scene);
-        });
+        //loader.load("\\src\\components\\objects\\Flower\\banana\\scene.gltf", (gltf) => {
+          //  this.add(gltf.scene);
+        //});
      
-        this.add(land, flower, lights, clock);
+        this.add(land, banana, lights, clock);
 
         // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
+        //this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
     addToUpdateList(object) {
@@ -43,12 +43,14 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * timeStamp) / 10000;
+        //this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+
+        
     }
 }
 
