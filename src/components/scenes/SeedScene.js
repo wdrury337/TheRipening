@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Clock, Land, Banana } from 'objects';
+import { Clock, Land, Banana, Room} from 'objects';
 import { BasicLights } from 'lights';
 
 class SeedScene extends Scene {
@@ -9,6 +9,7 @@ class SeedScene extends Scene {
         super();
 
         // Init state
+
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 1,
@@ -24,6 +25,9 @@ class SeedScene extends Scene {
         const banana = new Banana(this);
         const lights = new BasicLights();
         const clock = new Clock(this);
+
+        const sides = {'up': true, 'down': true, 'left': true, 'right': true} 
+        //const room = new Room('roomName', 100, 200, 200, sides, 0x7ec0ee)
      
         this.state.clock = clock;
         this.add(clock, land, banana, lights);

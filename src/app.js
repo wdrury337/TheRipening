@@ -9,6 +9,7 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
+import { Global } from './global';
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
@@ -34,6 +35,11 @@ controls.enablePan = false;
 controls.minDistance = 4;
 controls.maxDistance = 16;
 controls.update();
+
+// Set up global variables
+Global.camera = camera;
+Global.scene = scene; 
+Global.clock = scene.state.clock;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
@@ -74,7 +80,6 @@ const onKeyUp = (event) => {
     const clock = scene.state.clock;
     switch (event.key) {
         case 'w': 
-            console.log('w')
             clock.state.moveForward = false;
             break;
         case 'a':

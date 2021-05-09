@@ -2,6 +2,7 @@ import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './clock.gltf';
+import { Global } from '../../../global';
 
 class Clock extends Group {
     constructor(parent) {
@@ -36,6 +37,9 @@ class Clock extends Group {
     }
 
     update(timeStamp) {
+        // const cameraAngle = Global.camera.getWorldDirection();
+        // this.lookAt(cameraAngle);
+
         if (this.state.bob) {
             // Bob back and forth
             this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
