@@ -9,9 +9,9 @@ class Dice extends Group {
         super();
 
         // Init
-        this.state = { 
-            direction: Globals.clock.position.clone().normalize(),
-        }
+        // this.state = { 
+        //     direction: Globals.clock.position.clone().normalize(),
+        // }
 
         // Load object
         const loader = new GLTFLoader();
@@ -28,9 +28,9 @@ class Dice extends Group {
     }
 
     update(timeStamp) {
-        const newPos = this.position.add(
-            this.state.direction.clone().multiplyScalar(Globals.DICE_MOVEMENT_SPEED)
-        );
+        // const newPos = this.position.add(
+        //     this.state.direction.clone().multiplyScalar(Globals.DICE_MOVEMENT_SPEED)
+        // );
         // Check to see if new position is out of bounds
         // const diceBox = new Box3().setFromObject(this);
         // if (intersectsEnemy(this.))
