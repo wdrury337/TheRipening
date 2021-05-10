@@ -1,7 +1,7 @@
 import { Box3, Group, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './dice.gltf';
-import { Global, intersectsEnemy } from '../../../global';
+import { Global, intersectsEnemy, intersectsWalls } from '../../../global';
 
 class Dice extends Group {
     constructor(parent) {
@@ -31,12 +31,12 @@ class Dice extends Group {
         // console.log(this.state.direction);
         this.position.add(this.state.direction.clone().multiplyScalar(Global.DICE_MOVEMENT_SPEED));
         // this.rotateOnAxis(this.state.direction.clone().cross(this.up), Global.DICE_ROTATION_SPEED);
-        
         // Check to see if new position is out of bounds
         
         const diceBox = new Box3().setFromObject(this);
         const enemy = intersectsEnemy(diceBox);
-        if (enemy !== undefined) {
+        const wall = intersectsWalls(diceBox)
+        if (enemy !== undefined || wall) {
             Global.scene.remove(this);
         }
     }
