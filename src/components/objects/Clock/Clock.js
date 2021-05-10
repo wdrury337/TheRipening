@@ -2,7 +2,7 @@ import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './clock.gltf';
-import { Global, intersectsWalls } from '../../../global';
+import { Global, intersectsWalls } from 'global';
 
 class Clock extends Group {
     constructor(parent) {

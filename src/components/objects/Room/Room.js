@@ -2,7 +2,7 @@
 
 import { Box3, Vector3, DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
-import { Global} from '../../../global';
+import { Global} from 'global';
 
 class Room {
   constructor(parent, x, z, arenaSize, hexColor, sides) {
