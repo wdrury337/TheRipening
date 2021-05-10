@@ -87,7 +87,8 @@ class Clock extends Group {
         }
 
         // Test wall collision. If interesects, set position to previous position
-        intersectsWalls(this, prevPosition);
+        if(intersectsWalls(new Box3().setFromObject(this))) this.position.copy(prevPosition);
+
 
         // Advance tween animations, if any exist
         TWEEN.update();

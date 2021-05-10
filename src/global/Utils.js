@@ -13,12 +13,12 @@ function intersectsEnemy(box) {
 }
 
 // Test wall collision 
-function intersectsWalls(obj, prevPosition) {
-    const box = new Box3().setFromObject(obj);
+function intersectsWalls(box) {
     for (const wall of Global.walls) {
         if (box.intersectsBox(wall)) {
-            obj.position.copy(prevPosition);
+            return true;
         }
     }
+    return false;
 }
 export { intersectsEnemy, intersectsWalls}
