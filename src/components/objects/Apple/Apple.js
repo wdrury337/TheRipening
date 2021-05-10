@@ -16,7 +16,7 @@ class Apple extends Group {
         this.name = 'apple';
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.multiplyScalar(1 / 10);
-            gltf.scene.position.set(1, 0, 1);
+            gltf.scene.position.set(1, .05, 1);
             this.add(gltf.scene);
         });
 
