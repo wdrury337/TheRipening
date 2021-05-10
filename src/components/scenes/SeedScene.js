@@ -40,7 +40,7 @@ class SeedScene extends Scene {
         this.state.clock = clock;
         this.add(clock, land, banana, lights);
         Global.clock = clock;
-        this.add(clock, land, banana, apple, avocado, lights, dice);
+        this.add(clock, land, banana, apple, avocado, lights);
 
     }
 
