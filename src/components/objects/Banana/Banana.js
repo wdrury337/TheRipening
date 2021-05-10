@@ -9,6 +9,12 @@ class Banana extends Group {
         // Call parent Group() constructor
         super();
 
+
+        // store object's health
+        this.state = { 
+            health: 100,
+        }
+
         // Load object
         const loader = Global.loader;
 
@@ -26,6 +32,15 @@ class Banana extends Group {
     update(timeStamp) {
         // Advance tween animations, if any exist
         TWEEN.update();
+
+        // Remove if health is depleted
+        if (this.state.health <= 0){
+            Global.scene.remove(this);
+            let index = Global.enemies.indexOf(this);
+            if (index > -1) Global.enemies.splice(index, 1);
+            index = Global.scene.state.updateList.indexOf(this);
+            if (index > -1) Global.scene.state.updateList.splice(index, 1);
+        }
     }
 }
 

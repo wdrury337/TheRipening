@@ -33,9 +33,7 @@ class SeedScene extends Scene {
         Global.enemies.push(banana);
 
         const sides = {"up": true, 'down': true, 'left': true, 'right': true};
-        new Room(this, 0, 0, 20, 0x700000, sides);
-        console.log(Global.walls)
-        
+        new Room(this, 0, 0, 20, 0x700000, sides);        
         
         this.state.clock = clock;
         this.add(clock, land, banana, lights);
