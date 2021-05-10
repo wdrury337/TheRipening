@@ -51,7 +51,7 @@ class Clock extends Group {
     update(timeStamp) {
 
         // Update clock to always face the camera position
-        const cameraXY = new Vector3(Global.camera.position.x, 0, Global.camera.position.z); 
+        const cameraXY = Global.camera.position.clone().setY(0); 
         this.lookAt(cameraXY);
         this.rotateOnAxis(this.up, Global.CLOCK_ROTATION_OFFSET);
 
