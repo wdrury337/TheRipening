@@ -1,7 +1,7 @@
-import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Clock, Land, Banana, Room} from 'objects';
+import { Clock, Land, Banana, Room, Apple, Avocado, Dice} from 'objects';
 import { BasicLights } from 'lights';
+import { Global } from '../../global';
 
 class SeedScene extends Scene {
     constructor() {
@@ -9,13 +9,11 @@ class SeedScene extends Scene {
         super();
 
         // Init state
-
         this.state = {
-            gui: new Dat.GUI(), // Create GUI for scene
-            rotationSpeed: 1,
             updateList: [],
-            clock: undefined
         };
+
+        this.name = "scene";
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
@@ -25,15 +23,15 @@ class SeedScene extends Scene {
         const banana = new Banana(this);
         const lights = new BasicLights();
         const clock = new Clock(this);
+        const apple = new Apple(this);
+        const avocado = new Avocado(this);
+        const dice = new Dice(this);
 
-        const sides = {'up': true, 'down': true, 'left': true, 'right': true} 
-        const room = new Room(this, 0, 0, 20, 0x700000, sides)
-     
         this.state.clock = clock;
         this.add(clock, land, banana, lights);
 
-        // Populate GUI
-        //this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
+        Global.clock = clock;
+        this.add(clock, land, banana, apple, avocado, lights, dice);
     }
 
     addToUpdateList(object) {
@@ -41,7 +39,7 @@ class SeedScene extends Scene {
     }
 
     update(timeStamp) {
-        const { rotationSpeed, updateList } = this.state;
+        const { updateList } = this.state;
         //this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
         // Call update for each object in the updateList

@@ -1,4 +1,4 @@
-import { Group } from 'three';
+import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './clock.gltf';
@@ -11,9 +11,6 @@ class Clock extends Group {
 
         // Init state
         this.state = {
-            gui: parent.state.gui,
-            bob: true,
-            twirl: 0,
             moveForward: false,
             moveBackward: false,
             moveLeft: false,
@@ -21,47 +18,68 @@ class Clock extends Group {
         };
 
         // Load object
+        // Object fetched from https://poly.google.com/view/4t8wFjBwJVI
         const loader = new GLTFLoader();
 
         this.name = 'clock';
         loader.load(MODEL, (gltf) => {
-            gltf.scene.scale.multiplyScalar(1 / 1000);
+
+            // Add object to scene
+            gltf.scene.scale.set(.005, .005, .005);
+            gltf.scene.position.set(0, 0, 0);
             this.add(gltf.scene);
+
+            // Visualize the objects bounding box for debugging
+            const box = new Box3().setFromObject(gltf.scene);
+            const helper = new Box3Helper(box, 0xFFFFFF);
+            this.add(helper);
+
+            // Visualize origin
+            const dir = new Vector3(0, 1, 0);
+            const origin = new Vector3(0, 0, 0);
+            const length = 1;
+            const hex = 0xFFFFFF;
+            const arrow = new ArrowHelper(dir, origin, length, hex);
+            this.add(arrow);
         });
+        this.boundingBox = new Box3();
 
         // Add self to parent's update list
         parent.addToUpdateList(this);
-
-        // Populate GUI
-        this.state.gui.add(this.state, 'bob');
     }
 
     update(timeStamp) {
-        // const cameraAngle = Global.camera.getWorldDirection();
-        // this.lookAt(cameraAngle);
 
-        if (this.state.bob) {
-            // Bob back and forth
-            this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
-        }
-        if (this.state.twirl > 0) {
-            // Lazy implementation of twirl
-            this.state.twirl -= Math.PI / 8;
-            this.rotation.y += Math.PI / 8;
-        }
+        // Update clock to always face the camera position
+        const cameraXY = Global.camera.position.clone().setY(0); 
+        this.lookAt(cameraXY);
+        this.rotateOnAxis(this.up, Global.CLOCK_ROTATION_OFFSET);
+
+        const toClock = this.position.clone().sub(Global.camera.position);
+        const dir = new Vector3(toClock.x, 0, toClock.z).normalize().multiplyScalar(Global.MOVEMENT_SPEED);
 
         // Handle events triggered by key presses
         if (this.state.moveForward) {
-            this.position.x += .1
+            this.position.add(dir);
+            const distToCamera = this.position.distanceTo(Global.camera.position);
+            if (distToCamera >= Global.DISTANCE_TO_CAMERA) {
+                Global.camera.position.add(dir);
+            }
         }
         if (this.state.moveBackward) {
-            this.position.x -= .1
+            this.position.add(dir.clone().multiplyScalar(-1));
+            const distToCamera = this.position.distanceTo(Global.camera.position);
+            if (distToCamera <= Global.DISTANCE_TO_CAMERA) {
+                Global.camera.position.add(dir.clone().multiplyScalar(-1));
+            }
         }
         if (this.state.moveLeft) {
-            this.position.z -= .1
+            this.position.add(dir.clone().cross(this.up).multiplyScalar(-1));
+            Global.camera.position.add(dir.clone().cross(this.up).multiplyScalar(-1));
         }
         if (this.state.moveRight) {
-            this.position.z += .1
+            this.position.add(dir.clone().cross(this.up));
+            Global.camera.position.add(dir.clone().cross(this.up));
         }
 
         // Advance tween animations, if any exist

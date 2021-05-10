@@ -1,20 +1,22 @@
 import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import MODEL from './banana.gltf';
+import MODEL from './avocado.gltf';
 
-class Banana extends Group {
+class Avocado extends Group {
     constructor(parent) {
         // Call parent Group() constructor
         super();
 
         // Load object
+        // Object fetched from https://poly.google.com/view/4tOmpD9-xsV
         const loader = new GLTFLoader();
 
-        this.name = 'banana';
+        this.name = 'apple';
         loader.load(MODEL, (gltf) => {
-            gltf.scene.scale.multiplyScalar(1 / 70);
-            gltf.scene.position.set(-1, .7, 1);
+            console.log(gltf.scene)
+            gltf.scene.scale.multiplyScalar(1/1000000);
+            gltf.scene.position.set(-1, 0, -1);
             this.add(gltf.scene);
         });
 
@@ -28,4 +30,4 @@ class Banana extends Group {
     }
 }
 
-export default Banana;
+export default Avocado;
