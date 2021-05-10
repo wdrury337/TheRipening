@@ -1,5 +1,5 @@
 import { Scene, Color } from 'three';
-import { Clock, Land, Banana, Room, Apple, Avocado} from 'objects';
+import { Clock, Land, Banana, Room, Apple, Avocado, Dice} from 'objects';
 import { BasicLights } from 'lights';
 import { Global } from '../../global';
 
@@ -25,12 +25,13 @@ class SeedScene extends Scene {
         const clock = new Clock(this);
         const apple = new Apple(this);
         const avocado = new Avocado(this);
+        const dice = new Dice(this);
 
         const sides = {'up': true, 'down': true, 'left': true, 'right': true};
         //const room = new Room('roomName', 100, 200, 200, sides, 0x7ec0ee)
 
         Global.clock = clock;
-        this.add(clock, land, banana, apple, avocado, lights);
+        this.add(clock, land, banana, apple, avocado, lights, dice);
     }
 
     addToUpdateList(object) {

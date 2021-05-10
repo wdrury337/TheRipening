@@ -1,7 +1,7 @@
 import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import MODEL from './banana1.gltf';
+import MODEL from './banana.gltf';
 
 class Banana extends Group {
     constructor(parent) {
