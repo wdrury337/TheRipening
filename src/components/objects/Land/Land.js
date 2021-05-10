@@ -1,6 +1,6 @@
 import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { Global } from '../../../global';
+import { Global } from 'global';
 import MODEL from './land.gltf';
 
 class Land extends Group {

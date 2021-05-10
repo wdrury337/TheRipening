@@ -1,7 +1,7 @@
 import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Global } from '../../../global';
+import { Global } from 'global';
 import MODEL from './apple.gltf';
 
 class Apple extends Group {

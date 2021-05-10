@@ -1,7 +1,7 @@
 import { Box3, Group, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './dice.gltf';
-import { Global, intersectsEnemy, intersectsWalls } from '../../../global';
+import { Global, intersectsEnemy, intersectsWalls } from 'global';
 
 class Dice extends Group {
     constructor(parent) {
