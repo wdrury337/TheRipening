@@ -1,7 +1,7 @@
 import { Scene, Color } from 'three';
 import { Clock, Land, Banana, Room, Apple, Avocado, Dice} from 'objects';
 import { BasicLights } from 'lights';
-import { Global } from '../../global';
+import { Global } from 'global';
 
 class SeedScene extends Scene {
     constructor() {
