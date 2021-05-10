@@ -1,6 +1,7 @@
 import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import { Global } from '../../../global';
 import MODEL from './banana.gltf';
 
 class Banana extends Group {
@@ -9,7 +10,7 @@ class Banana extends Group {
         super();
 
         // Load object
-        const loader = new GLTFLoader();
+        const loader = Global.loader;
 
         this.name = 'banana';
         loader.load(MODEL, (gltf) => {
