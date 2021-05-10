@@ -13,6 +13,8 @@ class Banana extends Group {
         // store object's health
         this.state = { 
             health: 100,
+            speed: .019,
+
         }
 
         // Load object
@@ -40,7 +42,12 @@ class Banana extends Group {
             if (index > -1) Global.enemies.splice(index, 1);
             index = Global.scene.state.updateList.indexOf(this);
             if (index > -1) Global.scene.state.updateList.splice(index, 1);
+            return
         }
+
+        // Movement
+        const dir = Global.clock.position.clone().sub(this.position).normalize();
+        this.position.add(dir.multiplyScalar(this.state.speed));
     }
 }
 
