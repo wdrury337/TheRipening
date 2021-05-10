@@ -27,7 +27,7 @@ class SeedScene extends Scene {
         const clock = new Clock(this);
 
         const sides = {'up': true, 'down': true, 'left': true, 'right': true} 
-        //const room = new Room('roomName', 100, 200, 200, sides, 0x7ec0ee)
+        const room = new Room(this, 0, 0, 20, 0x700000, sides)
      
         this.state.clock = clock;
         this.add(clock, land, banana, lights);

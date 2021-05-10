@@ -5,13 +5,12 @@ import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 import { Global} from '../../../global';
 
 class Room {
-  constructor(roomName, arenaSize, x, z, sides, hexColor) {
+  constructor(parent, x, z, arenaSize, hexColor, sides) {
     // setting id of room, to be used for pathing algorithm
-    this.id = roomName;
+    this.id = 'roomName';
 
     // possibly also used for defining the characteristics of the room
     this.unlocked = false;
-
     this.minX = x - arenaSize / 2;
     this.maxX = x + arenaSize / 2;
     this.minZ = z - arenaSize / 2;
@@ -25,16 +24,16 @@ class Room {
       color: 0xfdf0c4,
       side: DoubleSide,
       reflectivity: 0.01,
-      wireframe: true,
-      transparent: true,
-      opacity: 1,
+      wireframe: false,
+      transparent: false,
+      opacity: 0,
     });
     const floor = new Mesh(floorGeo, floorMaterial);
     floor.rotation.x = Math.PI / 2;
-    floor.position.y = -30;
+    floor.position.y = -2;
     floor.position.x = x;
     floor.position.z = z;
-    //Global.scene.add(floor);
+    parent.add(floor);
 
     /** ********************************************************
      * WALLS
@@ -43,8 +42,8 @@ class Room {
       color: hexColor,
       side: DoubleSide,
       wireframe: true,
-      transparent: true,
-      opacity: 0.6,
+      transparent: false,
+      opacity: 1.0,
     });
 
     let wall;
@@ -58,7 +57,7 @@ class Room {
       wall.position.y = 7.5;
       wall.position.x = x + arenaSize / 2;
       wall.position.z = z;
-      //Global.scene.add(wall);
+      parent.add(wall);
     }
 
     if (sides.down) {
@@ -67,7 +66,7 @@ class Room {
       wall.position.y = 7.5;
       wall.position.x = x - arenaSize / 2;
       wall.position.z = z;
-      //globals.scene.add(wall);
+      parent.add(wall);
     }
 
     if (sides.left) {
@@ -75,7 +74,7 @@ class Room {
       wall.position.y = 7.5;
       wall.position.z = z - arenaSize / 2;
       wall.position.x = x;
-      //globals.scene.add(wall);
+      parent.add(wall);
     }
 
     if (sides.right) {
@@ -83,7 +82,7 @@ class Room {
       wall.position.y = 7.5;
       wall.position.z = z + arenaSize / 2;
       wall.position.x = x;
-      //globals.scene.add(wall);
+      parent.add(wall);
     }
   }
 
