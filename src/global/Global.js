@@ -17,7 +17,6 @@ export default {
     DISTANCE_TO_CAMERA: 10,
 
     // Dice
-    DICE_ROTATION_SPEED: Math.PI,
-    DICE_MOVEMENT_SPEED: .5,
-
+    DICE_ROTATION_SPEED: -.1,
+    DICE_MOVEMENT_SPEED: .1,
 };
