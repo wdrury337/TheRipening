@@ -27,8 +27,8 @@ class SeedScene extends Scene {
         const avocado = new Avocado(this);
         const dice = new Dice(this);
 
-        const sides = {'up': true, 'down': true, 'left': true, 'right': true};
-        //const room = new Room('roomName', 100, 200, 200, sides, 0x7ec0ee)
+        this.state.clock = clock;
+        this.add(clock, land, banana, lights);
 
         Global.clock = clock;
         this.add(clock, land, banana, apple, avocado, lights, dice);
