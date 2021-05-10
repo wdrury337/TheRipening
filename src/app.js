@@ -10,15 +10,22 @@ import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
 import { Global } from './global';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import Dice from './components/objects/Dice/Dice';
 
 // Initialize core ThreeJS components
-const scene = new SeedScene();
-const camera = new PerspectiveCamera();
-const renderer = new WebGLRenderer({ antialias: true });
+const loader = new GLTFLoader();
+Global.loader = loader;
 
-// Set up camera
+const camera = new PerspectiveCamera();
 camera.position.set(0, 25, -70);
 camera.lookAt(new Vector3(0, 0, 0));
+Global.camera = camera;
+
+const scene = new SeedScene();
+Global.scene = scene;
+
+const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -35,10 +42,6 @@ controls.enablePan = false;
 controls.minDistance = 4;
 controls.maxDistance = 16;
 controls.update();
-
-// Set up global variables
-Global.camera = camera;
-Global.scene = scene; 
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
@@ -74,6 +77,9 @@ const onKeyDown = (event) => {
         case 'd': 
             clock.state.moveRight = true;
             break;
+        case ' ':
+            const dice = new Dice(Global.scene);
+            Global.scene.add(dice);
     }
 };
 

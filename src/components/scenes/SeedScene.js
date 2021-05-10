@@ -19,19 +19,23 @@ class SeedScene extends Scene {
         this.background = new Color(0x7ec0ee);
 
         // Add meshes ato scene
-        const land = new Land();
-        const banana = new Banana(this);
-        const lights = new BasicLights();
         const clock = new Clock(this);
+        Global.clock = clock;
+
+        const lights = new BasicLights();
+        const land = new Land();
+
         const apple = new Apple(this);
         const avocado = new Avocado(this);
-        const dice = new Dice(this);
+        const banana = new Banana(this);
+        Global.enemies.push(apple);
+        Global.enemies.push(avocado);
+        Global.enemies.push(banana);
 
         const sides = {'up': true, 'down': true, 'left': true, 'right': true};
         //const room = new Room('roomName', 100, 200, 200, sides, 0x7ec0ee)
 
-        Global.clock = clock;
-        this.add(clock, land, banana, apple, avocado, lights, dice);
+        this.add(clock, land, banana, apple, avocado, lights);
     }
 
     addToUpdateList(object) {
@@ -40,7 +44,6 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { updateList } = this.state;
-        //this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {

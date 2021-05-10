@@ -1,25 +1,25 @@
 import { Box3, Group, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './dice.gltf';
-import { Globals, intersectsEnemy } from '../../../global';
+import { Global, intersectsEnemy } from '../../../global';
 
 class Dice extends Group {
     constructor(parent) {
         // Call parent Group() constructor
         super();
 
-        // Init
-        // this.state = { 
-        //     direction: Globals.clock.position.clone().normalize(),
-        // }
+        // Init state
+        this.state = { 
+            direction: Global.clock.position.clone().sub(Global.camera.position).setY(0).normalize(),
+        }
 
         // Load object
-        const loader = new GLTFLoader();
+        const loader = Global.loader;
 
         this.name = 'dice';
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.multiplyScalar(1 / 200);
-            gltf.scene.position.set(-1, 0, -1);
+            gltf.scene.position.set(Global.clock.position.x, Global.clock.position.y, Global.clock.position.z);
             this.add(gltf.scene);
         });
 
@@ -28,12 +28,17 @@ class Dice extends Group {
     }
 
     update(timeStamp) {
-        // const newPos = this.position.add(
-        //     this.state.direction.clone().multiplyScalar(Globals.DICE_MOVEMENT_SPEED)
-        // );
+        // console.log(this.state.direction);
+        this.position.add(this.state.direction.clone().multiplyScalar(Global.DICE_MOVEMENT_SPEED));
+        // this.rotateOnAxis(this.state.direction.clone().cross(this.up), Global.DICE_ROTATION_SPEED);
+        
         // Check to see if new position is out of bounds
-        // const diceBox = new Box3().setFromObject(this);
-        // if (intersectsEnemy(this.))
+        
+        const diceBox = new Box3().setFromObject(this);
+        const enemy = intersectsEnemy(diceBox);
+        if (enemy !== undefined) {
+            Global.scene.remove(this);
+        }
     }
 }
 

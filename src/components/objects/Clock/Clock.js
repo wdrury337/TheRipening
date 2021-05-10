@@ -19,7 +19,7 @@ class Clock extends Group {
 
         // Load object
         // Object fetched from https://poly.google.com/view/4t8wFjBwJVI
-        const loader = new GLTFLoader();
+        const loader = Global.loader;
 
         this.name = 'clock';
         loader.load(MODEL, (gltf) => {
