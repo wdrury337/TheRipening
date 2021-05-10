@@ -1,6 +1,6 @@
 // Room adapted from https://github.com/MichaelF49/Pacman3D/blob/master/src/objects/Room.js
 
-import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
+import { Box3, Vector3, DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
 import { Global} from '../../../global';
 
@@ -58,6 +58,11 @@ class Room {
       wall.position.x = x + arenaSize / 2;
       wall.position.z = z;
       parent.add(wall);
+      let v1 = new Vector3(wall.position.x, wall.position.y - 100, z - arenaSize/2);
+      let v2 = new Vector3(wall.position.x + .1, wall.position.y + 100, z + arenaSize/2);
+
+
+      Global.walls.push(new Box3(v1, v2));  
     }
 
     if (sides.down) {
@@ -67,6 +72,11 @@ class Room {
       wall.position.x = x - arenaSize / 2;
       wall.position.z = z;
       parent.add(wall);
+      let v1 = new Vector3(wall.position.x, wall.position.y - 100, z - arenaSize/2);
+      let v2 = new Vector3(wall.position.x +.1, wall.position.y + 100, z + arenaSize/2);
+
+
+      Global.walls.push(new Box3(v1, v2));  
     }
 
     if (sides.left) {
@@ -75,6 +85,11 @@ class Room {
       wall.position.z = z - arenaSize / 2;
       wall.position.x = x;
       parent.add(wall);
+      let v1 = new Vector3(x - arenaSize/2, wall.position.y-100, wall.position.z);
+      let v2 = new Vector3(x + arenaSize/2, wall.position.y + 100, wall.position.z + .1);
+
+
+      Global.walls.push(new Box3(v1, v2));  
     }
 
     if (sides.right) {
@@ -83,6 +98,11 @@ class Room {
       wall.position.z = z + arenaSize / 2;
       wall.position.x = x;
       parent.add(wall);
+      let v1 = new Vector3(x - arenaSize/2, wall.position.y-100, wall.position.z);
+      let v2 = new Vector3(x + arenaSize/2, wall.position.y + 100, wall.position.z + .1);
+
+
+      Global.walls.push(new Box3(v1, v2));  
     }
   }
 

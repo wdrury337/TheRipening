@@ -11,7 +11,6 @@ class SeedScene extends Scene {
         // Init state
         this.state = {
             updateList: [],
-            walls: [],
         };
 
         this.name = "scene";
@@ -29,11 +28,13 @@ class SeedScene extends Scene {
         const dice = new Dice(this);
 
         const sides = {"up": true, 'down': true, 'left': true, 'right': true};
-        const room = new Room(this, 0, 0, 20, 0x700000, sides);
-
+        new Room(this, 0, 0, 20, 0x700000, sides);
+        console.log(Global.walls)
+        
+        
         this.state.clock = clock;
         this.add(clock, land, banana, lights);
-
+        console.log(Global.walls)
         Global.clock = clock;
         this.add(clock, land, banana, apple, avocado, lights, dice);
     }

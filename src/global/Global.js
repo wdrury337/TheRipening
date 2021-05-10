@@ -5,6 +5,7 @@ export default {
     scene: null,
     clock: null,
     enemies: [],
+    walls: [],
 
     ///////////////////////////
     // Constants
