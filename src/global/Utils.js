@@ -1,4 +1,4 @@
-import Global from './Global.js';
+import { Global } from './';
 import { Box3 } from 'three';
 
 function intersectsEnemy(box) {
@@ -12,4 +12,13 @@ function intersectsEnemy(box) {
     return undefined;
 }
 
-export { intersectsEnemy };
+// Test wall collision 
+function intersectsWalls(obj, prevPosition) {
+    const box = new Box3().setFromObject(obj);
+    for (const wall of Global.walls) {
+        if (box.intersectsBox(wall)) {
+            obj.position.copy(prevPosition);
+        }
+    }
+}
+export { intersectsEnemy, intersectsWalls}

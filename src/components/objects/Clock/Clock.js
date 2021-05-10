@@ -2,7 +2,7 @@ import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './clock.gltf';
-import { Global } from '../../../global';
+import { Global, intersectsWalls } from '../../../global';
 
 class Clock extends Group {
     constructor(parent) {
@@ -14,7 +14,8 @@ class Clock extends Group {
             moveForward: false,
             moveBackward: false,
             moveLeft: false,
-            moveRight: false
+            moveRight: false,
+            boundingBox: new Box3
         };
 
         // Load object
@@ -31,6 +32,7 @@ class Clock extends Group {
 
             // Visualize the objects bounding box for debugging
             const box = new Box3().setFromObject(gltf.scene);
+            this.state.boundingBox = box;
             const helper = new Box3Helper(box, 0xFFFFFF);
             this.add(helper);
 
@@ -42,13 +44,13 @@ class Clock extends Group {
             const arrow = new ArrowHelper(dir, origin, length, hex);
             this.add(arrow);
         });
-        this.boundingBox = new Box3();
 
         // Add self to parent's update list
         parent.addToUpdateList(this);
     }
 
     update(timeStamp) {
+        const prevPosition = this.position.clone();
 
         // Update clock to always face the camera position
         const cameraXY = Global.camera.position.clone().setY(0); 
@@ -57,6 +59,8 @@ class Clock extends Group {
 
         const toClock = this.position.clone().sub(Global.camera.position);
         const dir = new Vector3(toClock.x, 0, toClock.z).normalize().multiplyScalar(Global.MOVEMENT_SPEED);
+        
+
 
         // Handle events triggered by key presses
         if (this.state.moveForward) {
@@ -81,6 +85,9 @@ class Clock extends Group {
             this.position.add(dir.clone().cross(this.up));
             Global.camera.position.add(dir.clone().cross(this.up));
         }
+
+        // Test wall collision. If interesects, set position to previous position
+        intersectsWalls(this, prevPosition);
 
         // Advance tween animations, if any exist
         TWEEN.update();

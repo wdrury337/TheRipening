@@ -1,2 +1,2 @@
-export { default as Global } from './Global.js';
-export * from './Utils.js';
+export { default as Global } from './global';
+export * from './Utils';
