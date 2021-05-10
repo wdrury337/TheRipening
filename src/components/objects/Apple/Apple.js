@@ -9,9 +9,10 @@ class Apple extends Group {
         // Call parent Group() constructor
         super();
 
-        // store object's health
+        // store object's information
         this.state = { 
             health: 1000,
+            speed: .01,
         }
         // Load object
         // Object fetched from https://poly.google.com/view/4tOmpD9-xsV
@@ -39,7 +40,12 @@ class Apple extends Group {
             if (index > -1) Global.enemies.splice(index, 1);
             index = Global.scene.state.updateList.indexOf(this);
             if (index > -1) Global.scene.state.updateList.splice(index, 1);
+            return
         }
+
+        // Movement
+        const dir = Global.clock.position.clone().sub(this.position).normalize();
+        this.position.add(dir.multiplyScalar(this.state.speed));
     }
 }
 
