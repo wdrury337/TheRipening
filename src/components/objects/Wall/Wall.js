@@ -7,7 +7,8 @@ import {
     MeshBasicMaterial, 
     PlaneGeometry,
     FrontSide,
-    ArrowHelper, 
+    ArrowHelper,
+    Plane, 
 } from 'three';
 
 import { Global} from 'global';
@@ -22,6 +23,7 @@ class Wall extends Mesh {
     // Init state
     this.state = { 
         normal: new Vector3(-x, 0, -z).normalize(),
+        dist: new Vector3(x, 0, z).length(),
     }
 
     // Create wall material 
@@ -37,10 +39,12 @@ class Wall extends Mesh {
     parent.add(this);
     
     // Used for colision detection
-    let v1 = new Vector3(x - width/2, this.position.y-100, this.position.z);
-    let v2 = new Vector3(x + width/2, this.position.y + 100, this.position.z + .1);
+    // let v1 = new Vector3(x - width/2, this.position.y-100, this.position.z);
+    // let v2 = new Vector3(x + width/2, this.position.y + 100, this.position.z + .1);
 
-    Global.walls.push(new Box3(v1, v2));
+    let plane = new Plane(this.state.normal, this.state.dist);
+
+    Global.walls.push(plane);
   }
 }
 

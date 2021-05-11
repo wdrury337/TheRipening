@@ -18,7 +18,7 @@ class SeedScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
 
-        // Add meshes ato scene
+        // Add meshes to scene
         const clock = new Clock(this);
         Global.clock = clock;
 
@@ -34,24 +34,29 @@ class SeedScene extends Scene {
         const floor = new Floor(this, 20);
 
         const arenaRadius = Global.ARENA_SIZE/2;
+
+        // Wall colors
         const pink = 0xffb6c1;
         const purple = 0xcbc3e3;
         const green = 0xccffcc;
         const blue = 0xccffff;
+
+        // Wall orientations
         const left = new Vector3(0, 0, 0);
         const right = new Vector3(Math.PI, 0, 0);
         const front = new Vector3(0, 3*Math.PI/2, 0);
         const back = new Vector3(Math.PI, Math.PI/2, 0);
+
         const lWall = new Wall(this, 0, arenaRadius, Global.ARENA_SIZE, 5, pink, right);
         const rWall = new Wall(this, 0, -arenaRadius, Global.ARENA_SIZE, 5, purple, left);
         const fWall = new Wall(this, arenaRadius, 0, Global.ARENA_SIZE, 5, green, front);
-        const bWall = new Wall(this, -arenaRadius, 0, Global.ARENA_SIZE, 5, blue, back);
-
-        // const sides = {"up": true, 'down': true, 'left': true, 'right': true};
-        // new Room(this, 0, 0, 20, 0x700000, sides);        
+        const bWall = new Wall(this, -arenaRadius, 0, Global.ARENA_SIZE, 5, blue, back);     
         
+        // Clock here refers to the player
         this.state.clock = clock;
         Global.clock = clock;
+
+        // Add all the objects to the initial scene
         this.add(clock, banana, apple, avocado, floor, lWall, rWall, fWall, bWall, lights);
 
     }

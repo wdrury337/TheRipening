@@ -48,7 +48,7 @@ class Banana extends Group {
         // Movement
         const prevPosition = this.position;
         const box = new Box3().setFromObject(this).clone();
-        const dir = Global.clock.position.clone().sub(box.getCenter()).normalize();
+        const dir = Global.clock.position.clone().sub(box.getCenter()).setY(0).normalize();
         this.position.add(dir.multiplyScalar(this.state.speed));
 
         // Wall intersection

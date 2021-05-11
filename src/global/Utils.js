@@ -18,7 +18,7 @@ function intersectsEnemy(box) {
 // Test wall collision 
 function intersectsWalls(box) {
     for (const wall of Global.walls) {
-        if (box.intersectsBox(wall)) {
+        if (box.intersectsPlane(wall)) {
             return true;
         }
     }

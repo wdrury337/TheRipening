@@ -15,7 +15,7 @@ class Clock extends Group {
             moveBackward: false,
             moveLeft: false,
             moveRight: false,
-            boundingBox: new Box3,
+            boundingBox: new Box3(),
             health: 100
         };
 
@@ -60,8 +60,6 @@ class Clock extends Group {
 
         const toClock = this.position.clone().sub(Global.camera.position);
         const dir = new Vector3(toClock.x, 0, toClock.z).normalize().multiplyScalar(Global.MOVEMENT_SPEED);
-        
-
 
         // Handle events triggered by key presses
         if (this.state.moveForward) {
@@ -88,7 +86,9 @@ class Clock extends Group {
         }
 
         // Test wall collision. If interesects, set position to previous position
-        if(intersectsWalls(new Box3().setFromObject(this))) this.position.copy(prevPosition);
+        if(intersectsWalls(new Box3().setFromObject(this))) {
+            this.position.copy(prevPosition);
+        }
 
 
         // Advance tween animations, if any exist
