@@ -20,8 +20,11 @@ export default {
     DICE_ROTATION_SPEED: -.1,
     DICE_MOVEMENT_SPEED: .1,
 
+<<<<<<< HEAD
     // Arena
     ARENA_SIZE: 20, 
     
+=======
+>>>>>>> 1224e0d31ed02bda2125109d45358e46e20e3a1d
     // Flags
 };
