@@ -33,18 +33,6 @@ class Apple extends Group {
         // Advance tween animations, if any exist
         TWEEN.update();
 
-        // If health is less than 0, dispose of object
-        if (this.state.health <= 0){
-            Global.scene.remove(this);
-            let index = Global.enemies.indexOf(this);
-            if (index > -1) Global.enemies.splice(index, 1);
-
-            index = Global.scene.state.updateList.indexOf(this);
-            if (index > -1) Global.scene.state.updateList.splice(index, 1);
-
-            return
-        }
-
         // Movement        
         const prevPosition = this.position;
 
@@ -53,8 +41,9 @@ class Apple extends Group {
         this.position.add(dir.multiplyScalar(this.state.speed));
 
         // Wall intersection
-        if(intersectsWalls(new Box3().setFromObject(this))) this.position.copy(prevPosition);
-
+        if(intersectsWalls(new Box3().setFromObject(this))) {
+            this.position.copy(prevPosition);
+        }
     }
 }
 

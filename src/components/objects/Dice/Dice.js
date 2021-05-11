@@ -28,15 +28,29 @@ class Dice extends Group {
     }
 
     update(timeStamp) {
-        // console.log(this.state.direction);
         this.position.add(this.state.direction.clone().multiplyScalar(Global.DICE_MOVEMENT_SPEED));
         // this.rotateOnAxis(this.state.direction.clone().cross(this.up), Global.DICE_ROTATION_SPEED);
-        // Check to see if new position is out of bounds
         
         const diceBox = new Box3().setFromObject(this);
         const enemy = intersectsEnemy(diceBox);
         const wall = intersectsWalls(diceBox)
-        if (enemy !== undefined || wall) {
+        
+        // Enemy collision
+        if (enemy !== undefined) {
+            Global.scene.remove(this);
+
+            // If enemy health is less than 0, dispose of object
+            if (enemy.state.health <= 0) {
+                Global.scene.remove(enemy);
+                let index = Global.enemies.indexOf(enemy);
+                if (index > -1) Global.enemies.splice(index, 1);
+                index = Global.scene.state.updateList.indexOf(enemy);
+                if (index > -1) Global.scene.state.updateList.splice(index, 1);
+            }
+        }
+
+        // Wall collision
+        else if (wall) {
             Global.scene.remove(this);
         }
     }
