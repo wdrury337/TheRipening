@@ -53,6 +53,21 @@ class SeedScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+
+        // Spawn new
+        if (Global.SPAWN){
+            let enemy1 = new Apple(this);
+            let enemy2 = new Banana(this);
+
+            Global.enemies.push(enemy1);
+            Global.enemies.push(enemy2);
+
+            this.add(enemy1);
+            this.add(enemy2);
+
+            Global.SPAWN = false;
+
+        }
         
         
     }
