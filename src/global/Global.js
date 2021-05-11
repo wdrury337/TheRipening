@@ -22,4 +22,6 @@ export default {
 
     // Arena
     ARENA_SIZE: 20, 
+    
+    // Flags
 };
