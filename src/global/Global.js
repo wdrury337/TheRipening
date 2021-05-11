@@ -19,4 +19,6 @@ export default {
     // Dice
     DICE_ROTATION_SPEED: -.1,
     DICE_MOVEMENT_SPEED: .1,
+
+    // Flags
 };

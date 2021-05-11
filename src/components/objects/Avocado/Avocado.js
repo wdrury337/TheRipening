@@ -1,7 +1,7 @@
-import { Group } from 'three';
+import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Global } from 'global';
+import { Global, intersectsWalls } from 'global';
 import MODEL from './avocado.gltf';
 
 class Avocado extends Group {
@@ -12,7 +12,7 @@ class Avocado extends Group {
         // store object's health
         this.state = { 
             health: 10,
-            speed: .001,
+            speed: .007,
 
         }
 
@@ -45,8 +45,15 @@ class Avocado extends Group {
         }
 
         // Movement
-        const dir = Global.clock.position.clone().sub(this.position).normalize();
+        const prevPosition = this.position;
+
+        const box = new Box3().setFromObject(this).clone();
+        const dir = Global.clock.position.clone().sub(box.getCenter()).normalize()
         this.position.add(dir.multiplyScalar(this.state.speed));
+
+        // Wall intersection
+        if(intersectsWalls(new Box3().setFromObject(this))) this.position.copy(prevPosition);
+
     }
 }
 
