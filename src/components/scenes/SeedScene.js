@@ -1,5 +1,5 @@
-import { Scene, Color } from 'three';
-import { Clock, Land, Banana, Room, Apple, Avocado, Dice} from 'objects';
+import { Scene, Color, Vector3 } from 'three';
+import { Clock, Banana, Apple, Avocado, Floor, Wall} from 'objects';
 import { BasicLights } from 'lights';
 import { Global } from 'global';
 
@@ -23,7 +23,6 @@ class SeedScene extends Scene {
         Global.clock = clock;
 
         const lights = new BasicLights();
-        const land = new Land();
 
         const apple = new Apple(this);
         const avocado = new Avocado(this);
@@ -32,13 +31,28 @@ class SeedScene extends Scene {
         Global.enemies.push(avocado);
         Global.enemies.push(banana);
 
-        const sides = {"up": true, 'down': true, 'left': true, 'right': true};
-        new Room(this, 0, 0, 20, 0x700000, sides);        
+        const floor = new Floor(this, 20);
+
+        const arenaRadius = Global.ARENA_SIZE/2;
+        const pink = 0xffb6c1;
+        const purple = 0xcbc3e3;
+        const green = 0xccffcc;
+        const blue = 0xccffff;
+        const left = new Vector3(0, 0, 0);
+        const right = new Vector3(Math.PI, 0, 0);
+        const front = new Vector3(0, 3*Math.PI/2, 0);
+        const back = new Vector3(Math.PI, Math.PI/2, 0);
+        const lWall = new Wall(this, 0, arenaRadius, Global.ARENA_SIZE, 5, pink, right);
+        const rWall = new Wall(this, 0, -arenaRadius, Global.ARENA_SIZE, 5, purple, left);
+        const fWall = new Wall(this, arenaRadius, 0, Global.ARENA_SIZE, 5, green, front);
+        const bWall = new Wall(this, -arenaRadius, 0, Global.ARENA_SIZE, 5, blue, back);
+
+        // const sides = {"up": true, 'down': true, 'left': true, 'right': true};
+        // new Room(this, 0, 0, 20, 0x700000, sides);        
         
         this.state.clock = clock;
-        this.add(clock, land, banana, lights);
         Global.clock = clock;
-        this.add(clock, land, banana, apple, avocado, lights);
+        this.add(clock, banana, apple, avocado, floor, lWall, rWall, fWall, bWall, lights);
 
     }
 

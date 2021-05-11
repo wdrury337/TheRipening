@@ -7,9 +7,9 @@ export default {
     enemies: [],
     walls: [],
 
-    ///////////////////////////
-    // Constants
-    ///////////////////////////
+    /*************************************
+    * Constants
+    **************************************/
 
     // Clock
     MOVEMENT_SPEED: .1,
@@ -19,4 +19,7 @@ export default {
     // Dice
     DICE_ROTATION_SPEED: -.1,
     DICE_MOVEMENT_SPEED: .1,
+
+    // Arena
+    ARENA_SIZE: 20, 
 };
