@@ -68,6 +68,9 @@ class SeedScene extends Scene {
     update(timeStamp) {
         const { updateList } = this.state;
 
+        // Update die cooldown 
+        if (Global.DICE_COOLDOWN > 0) Global.DICE_COOLDOWN -= 1;
+            
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);

@@ -14,7 +14,6 @@ class Banana extends Group {
         this.state = { 
             health: 100,
             speed: .019,
-
         }
 
         // Load object
@@ -25,6 +24,7 @@ class Banana extends Group {
             gltf.scene.scale.multiplyScalar(1 / 70);
             gltf.scene.position.set(-1, .7, 1);
             this.add(gltf.scene);
+            console.log(this)
         });
 
         // Add self to parent's update list

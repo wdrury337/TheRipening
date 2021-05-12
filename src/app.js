@@ -78,8 +78,11 @@ const onKeyDown = (event) => {
             clock.state.moveRight = true;
             break;
         case ' ':
-            const dice = new Dice(Global.scene);
-            Global.scene.add(dice);
+            if (Global.DICE_COOLDOWN == 0){
+                const dice = new Dice(Global.scene);
+                Global.scene.add(dice);
+                Global.DICE_COOLDOWN = 15;
+            } 
     }
 };
 
