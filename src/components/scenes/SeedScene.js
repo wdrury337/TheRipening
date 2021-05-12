@@ -1,3 +1,4 @@
+
 import { Scene, Color, Vector3 } from 'three';
 import { Clock, Banana, Apple, Avocado, Floor, Wall} from 'objects';
 import { BasicLights } from 'lights';
@@ -12,11 +13,22 @@ class SeedScene extends Scene {
         this.state = {
             updateList: [],
         };
-
         this.name = "scene";
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
+
+
+        var text2 = document.createElement('div');
+        text2.style.position = 'absolute';
+        //text2.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
+        text2.style.width = 100;
+        text2.style.height = 100;
+        text2.style.backgroundColor = "blue";
+        text2.innerHTML = "hi there!";
+        text2.style.top = 200 + 'px';
+        text2.style.left = 200 + 'px';
+        document.body.appendChild(text2);
 
         // Add meshes to scene
         const clock = new Clock(this);

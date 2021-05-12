@@ -14,6 +14,7 @@ class Banana extends Group {
         this.state = { 
             health: 100,
             speed: .019,
+            damage: 5
         }
 
         // Load object
@@ -24,7 +25,6 @@ class Banana extends Group {
             gltf.scene.scale.multiplyScalar(1 / 70);
             gltf.scene.position.set(-1, .7, 1);
             this.add(gltf.scene);
-            console.log(this)
         });
 
         // Add self to parent's update list
@@ -46,9 +46,11 @@ class Banana extends Group {
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
-                this.position.copy(prevPosition);
+                collision(this, prevPosition, wall.normal);
             }
         }
+
+
     }
 }
 

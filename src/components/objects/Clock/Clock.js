@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './clock.gltf';
 import { Global, intersectsWalls, collision } from 'global';
+import { intersectsEnemy } from '../../../global';
 
 class Clock extends Group {
     constructor(parent) {
@@ -52,6 +53,11 @@ class Clock extends Group {
     }
 
     update(timeStamp) {
+        if (this.state.health <= 0) {
+            Global.scene.remove(this);
+            Global.GAMEOVER = true;
+            return
+        }
         const prevPosition = this.position.clone();
 
         // Update clock to always face the camera position
@@ -93,7 +99,28 @@ class Clock extends Group {
                 //this.position.copy(prevPosition);
             }
         }
+
+        const enemy = intersectsEnemy(new Box3().setFromObject(this));
         
+        if (Global.CLOCK_HIT_COOLDOWN == 0){
+                if (enemy !== undefined){
+                    const n = prevPosition.clone().sub(enemy.position.clone());
+                    collision(this, prevPosition, n);
+                    Global.CLOCK_HIT_COOLDOWN = 17;
+                    this.state.health -= enemy.state.damage;
+                    console.log(this.state.health)
+
+            }
+        }
+        else Global.CLOCK_HIT_COOLDOWN -= 1
+        // Test wall collision. If interesects, set position to previous position
+        for (const wall of Global.walls) {
+            if(intersectsWalls(new Box3().setFromObject(this), wall)) {
+                this.state.velocity = new Vector3();
+                collision(this, prevPosition, wall.normal);
+                //this.position.copy(prevPosition);
+            }
+        }
 
         if (this.state.velocity.length() > .01){
             this.position.add(this.state.velocity)
