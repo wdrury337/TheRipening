@@ -6,7 +6,6 @@ export default {
     clock: null,
     enemies: [],
     walls: [],
-
     /*************************************
     * Constants
     **************************************/
@@ -18,10 +17,12 @@ export default {
 
     // Dice
     DICE_ROTATION_SPEED: -.1,
-    DICE_MOVEMENT_SPEED: .1,
+    DICE_MOVEMENT_SPEED: .2,
+    DICE_COOLDOWN: 0,
 
     // Arena
-    ARENA_SIZE: 20, 
-    
-    // Flags
+    ARENA_SIZE: 20,
+
+        // Flags
+    SPAWN: false
 };
