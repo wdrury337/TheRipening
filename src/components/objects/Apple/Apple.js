@@ -13,6 +13,7 @@ class Apple extends Group {
         this.state = { 
             health: 1000,
             speed: .01,
+            damage: 20
         }
         // Load object
         // Object fetched from https://poly.google.com/view/4tOmpD9-xsV
@@ -45,7 +46,7 @@ class Apple extends Group {
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
-                this.position.copy(prevPosition);
+                collision(this, prevPosition, wall.normal);
             }
         }
     }

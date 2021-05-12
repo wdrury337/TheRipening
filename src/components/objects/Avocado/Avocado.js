@@ -13,6 +13,7 @@ class Avocado extends Group {
         this.state = { 
             health: 10,
             speed: .007,
+            damage: 17
 
         }
 
@@ -47,7 +48,7 @@ class Avocado extends Group {
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
-                this.position.copy(prevPosition);
+                collision(this, prevPosition, wall.normal);
             }
         }
 
