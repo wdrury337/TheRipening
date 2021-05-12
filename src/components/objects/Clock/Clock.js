@@ -2,7 +2,7 @@ import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './clock.gltf';
-import { Global, intersectsWalls } from 'global';
+import { Global, intersectsWalls, collision } from 'global';
 
 class Clock extends Group {
     constructor(parent) {
@@ -16,7 +16,8 @@ class Clock extends Group {
             moveLeft: false,
             moveRight: false,
             boundingBox: new Box3(),
-            health: 100
+            health: 100,
+            velocity: new Vector3
         };
 
         // Load object
@@ -86,11 +87,18 @@ class Clock extends Group {
         }
 
         // Test wall collision. If interesects, set position to previous position
-        if(intersectsWalls(new Box3().setFromObject(this))) {
-            this.position.copy(prevPosition);
+        for (const wall of Global.walls) {
+            if(intersectsWalls(new Box3().setFromObject(this), wall)) {
+                collision(this, prevPosition, wall.normal);
+                //this.position.copy(prevPosition);
+            }
         }
+        
 
-
+        if (this.state.velocity.length() > .01){
+            this.position.add(this.state.velocity)
+            this.state.velocity.multiplyScalar(.75);
+        }
         // Advance tween animations, if any exist
         TWEEN.update();
     }
