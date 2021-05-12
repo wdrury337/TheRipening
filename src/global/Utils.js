@@ -27,4 +27,23 @@ function collision(obj, prevPosition, normal) {
     let v = obj.position.clone().sub(prevPosition);
     obj.state.velocity = normal.clone().multiplyScalar(.24);
 }
-export { intersectsEnemy, intersectsWalls, collision}
+
+function spawnRandom() {
+    const enemy = Math.floor(Math.random() * 3);
+    if (enemy == 0){
+        let enemy1 = new Avocado(Global.scene);
+        Global.enemies.push(enemy1);
+        Global.scene.add(enemy1);
+    }
+    else if(enemy == 1){
+        let enemy1 = new Banana(Global.scene);
+        Global.enemies.push(enemy1);
+        Global.scene.add(enemy1);
+    }
+    else{
+        let enemy1 = new Apple(Global.scene);
+        Global.enemies.push(enemy1);
+        Global.scene.add(enemy1);
+    }
+}
+export { intersectsEnemy, intersectsWalls, collision, spawnRandom}

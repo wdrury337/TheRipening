@@ -1,8 +1,7 @@
-
 import { Scene, Color, Vector3 } from 'three';
 import { Clock, Banana, Apple, Avocado, Floor, Wall} from 'objects';
 import { BasicLights } from 'lights';
-import { Global } from 'global';
+import { Global, spawnRandom } from 'global';
 
 class SeedScene extends Scene {
     constructor() {
@@ -17,18 +16,6 @@ class SeedScene extends Scene {
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
-
-
-        var text2 = document.createElement('div');
-        text2.style.position = 'absolute';
-        //text2.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
-        text2.style.width = 100;
-        text2.style.height = 100;
-        text2.style.backgroundColor = "blue";
-        text2.innerHTML = "hi there!";
-        text2.style.top = 200 + 'px';
-        text2.style.left = 200 + 'px';
-        document.body.appendChild(text2);
 
         // Add meshes to scene
         const clock = new Clock(this);
@@ -90,14 +77,9 @@ class SeedScene extends Scene {
 
         // Spawn new
         if (Global.SPAWN){
-            let enemy1 = new Apple(this);
-            let enemy2 = new Banana(this);
-
-            Global.enemies.push(enemy1);
-            Global.enemies.push(enemy2);
-
-            this.add(enemy1);
-            this.add(enemy2);
+            
+            spawnRandom();
+            spawnRandom();
 
             Global.SPAWN = false;
 

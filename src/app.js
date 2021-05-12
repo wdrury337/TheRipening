@@ -45,6 +45,10 @@ controls.update();
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
+    if (Global.GAMEOVER) {
+        alert('Game Over.') 
+
+    }
     controls.update();
     camera.lookAt(Global.clock.position);
     renderer.render(scene, camera);
@@ -109,3 +113,4 @@ windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 window.addEventListener('keydown', onKeyDown);
 window.addEventListener('keyup', onKeyUp);
+

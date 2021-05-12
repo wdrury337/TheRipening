@@ -14,6 +14,7 @@ export default {
     MOVEMENT_SPEED: .1,
     CLOCK_ROTATION_OFFSET: .75 * Math.PI,
     DISTANCE_TO_CAMERA: 10,
+    CLOCK_HIT_COOLDOWN: 0,
 
     // Dice
     DICE_ROTATION_SPEED: -.1,
@@ -24,5 +25,6 @@ export default {
     ARENA_SIZE: 20,
 
         // Flags
-    SPAWN: false
+    SPAWN: false,
+    GAMEOVER: false
 };
