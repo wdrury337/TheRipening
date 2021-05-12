@@ -37,12 +37,16 @@ class Apple extends Group {
         const prevPosition = this.position;
 
         const box = new Box3().setFromObject(this).clone();
-        const dir = Global.clock.position.clone().sub(box.getCenter()).setY(0).normalize()
+        const c = new Vector3();
+        box.getCenter(c)
+        const dir = Global.clock.position.clone().sub(c).setY(0).normalize();
         this.position.add(dir.multiplyScalar(this.state.speed));
 
         // Wall intersection
-        if(intersectsWalls(new Box3().setFromObject(this))) {
-            this.position.copy(prevPosition);
+        for (const wall of Global.walls) {
+            if(intersectsWalls(new Box3().setFromObject(this), wall)) {
+                this.position.copy(prevPosition);
+            }
         }
     }
 }

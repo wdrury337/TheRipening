@@ -33,7 +33,13 @@ class Dice extends Group {
         
         const diceBox = new Box3().setFromObject(this);
         const enemy = intersectsEnemy(diceBox);
-        const wall = intersectsWalls(diceBox)
+        let wallContact = false;
+        for (const wall of Global.walls) {
+            if(intersectsWalls(new Box3().setFromObject(this), wall)) {
+                wallContact = true;
+                break;
+            }
+        }
         
         // Enemy collision
         if (enemy !== undefined) {
@@ -50,7 +56,7 @@ class Dice extends Group {
         }
 
         // Wall collision
-        else if (wall) {
+        else if (wallContact) {
             Global.scene.remove(this);
         }
     }

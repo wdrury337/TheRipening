@@ -1,5 +1,5 @@
 import { Global } from 'global';
-import { Box3 } from 'three';
+import { Box3, Vector3 } from 'three';
 import { Clock, Land, Banana, Room, Apple, Avocado, Dice} from 'objects';
 
 
@@ -16,12 +16,15 @@ function intersectsEnemy(box) {
 }
 
 // Test wall collision 
-function intersectsWalls(box) {
-    for (const wall of Global.walls) {
-        if (box.intersectsPlane(wall)) {
-            return true;
-        }
+function intersectsWalls(box, wall) {
+    if (box.intersectsPlane(wall)) {
+        return true;
     }
     return false;
 }
-export { intersectsEnemy, intersectsWalls}
+
+function collision(obj, prevPosition, normal) {
+    let v = obj.position.clone().sub(prevPosition);
+    obj.state.velocity = normal.clone().multiplyScalar(.24);
+}
+export { intersectsEnemy, intersectsWalls, collision}
