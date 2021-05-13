@@ -47,6 +47,7 @@ class Dice extends Group {
 
             // If enemy health is less than 0, dispose of object
             if (enemy.state.health <= 0) {
+                Global.SPAWN = true;
                 Global.scene.remove(enemy);
                 let index = Global.enemies.indexOf(enemy);
                 if (index > -1) Global.enemies.splice(index, 1);
