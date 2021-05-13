@@ -44,7 +44,7 @@ class Dice extends Group {
         // Enemy collision
         if (enemy !== undefined) {
             let n = enemy.position.clone().sub(Global.clock.position);
-            collision(enemy, n, .05);
+            collision(enemy, n, Global.DICE_KICKBACK);
             // If enemy health is less than 0, dispose of object
 
             if (enemy.state.health <= 0) {

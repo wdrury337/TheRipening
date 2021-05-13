@@ -11,8 +11,8 @@ class Apple extends Group {
 
         // store object's information
         this.state = { 
-            health: 100,
-            speed: .02,
+            health: 55,
+            speed: Math.random() * .01 + .015,
             damage: 15,
             velocity: new Vector3()
         }
@@ -48,7 +48,7 @@ class Apple extends Group {
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
                 this.state.velocity = new Vector3();
-                collision(this, wall.normal, .24);
+                collision(this, wall.normal, Global.CLOCK_KICKBACK);
             }
         }
 
