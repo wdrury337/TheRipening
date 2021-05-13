@@ -46,8 +46,6 @@ controls.update();
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     let scene;
-    console.log(Global.state);
-    console.log(Global.START)
     switch (Global.state) {
 
         case Global.START:
