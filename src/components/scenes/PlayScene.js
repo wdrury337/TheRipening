@@ -3,7 +3,7 @@ import { Clock, Banana, Apple, Avocado, Floor, Wall} from 'objects';
 import { BasicLights } from 'lights';
 import { Global, spawnRandom } from 'global';
 
-class SeedScene extends Scene {
+class PlayScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
         super();
@@ -15,7 +15,7 @@ class SeedScene extends Scene {
         this.name = "scene";
 
         // Set background to a nice color
-        this.background = new Color(0x7ec0ee);
+        this.background = new Color(0xccffff);
 
         // Add meshes to scene
         const clock = new Clock(this);
@@ -38,7 +38,7 @@ class SeedScene extends Scene {
         const pink = 0xffb6c1;
         const purple = 0xcbc3e3;
         const green = 0xccffcc;
-        const blue = 0xccffff;
+        const blue = 0x7ec0ee;
 
         // Wall orientations
         const left = new Vector3(0, 0, 0);
@@ -82,11 +82,8 @@ class SeedScene extends Scene {
             spawnRandom();
 
             Global.SPAWN = false;
-
-        }
-        
-        
+        }  
     }
 }
 
-export default SeedScene;
+export default PlayScene;

@@ -6,6 +6,8 @@ export default {
     clock: null,
     enemies: [],
     walls: [],
+    state: 1,
+
     /*************************************
     * Constants
     **************************************/
@@ -25,7 +27,11 @@ export default {
     // Arena
     ARENA_SIZE: 20,
 
-        // Flags
+    // Flags
     SPAWN: false,
-    GAMEOVER: false
+
+    // Game States
+    START: 1,
+    PLAY: 2, 
+    DEFEAT: 3,
 };
