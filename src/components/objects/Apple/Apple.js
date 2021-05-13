@@ -1,7 +1,7 @@
 import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Global, intersectsWalls } from 'global';
+import { Global, intersectsWalls, collision } from 'global';
 import MODEL from './apple.gltf';
 
 class Apple extends Group {
@@ -11,9 +11,10 @@ class Apple extends Group {
 
         // store object's information
         this.state = { 
-            health: 1000,
-            speed: .01,
-            damage: 20
+            health: 100,
+            speed: .02,
+            damage: 15,
+            velocity: new Vector3()
         }
         // Load object
         // Object fetched from https://poly.google.com/view/4tOmpD9-xsV
@@ -46,8 +47,14 @@ class Apple extends Group {
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
-                collision(this, prevPosition, wall.normal);
+                this.state.velocity = new Vector3();
+                collision(this, wall.normal, .24);
             }
+        }
+
+        if (this.state.velocity.length() > .01){
+            this.position.add(this.state.velocity)
+            this.state.velocity.multiplyScalar(.75);
         }
     }
 }

@@ -1,7 +1,7 @@
 import { Box3, Group, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './dice.gltf';
-import { Global, intersectsEnemy, intersectsWalls } from 'global';
+import { Global, intersectsEnemy, intersectsWalls, collision } from 'global';
 
 class Dice extends Group {
     constructor(parent) {
@@ -43,9 +43,10 @@ class Dice extends Group {
         
         // Enemy collision
         if (enemy !== undefined) {
-            Global.scene.remove(this);
-
+            let n = enemy.position.clone().sub(Global.clock.position);
+            collision(enemy, n, .05);
             // If enemy health is less than 0, dispose of object
+
             if (enemy.state.health <= 0) {
                 Global.SPAWN = true;
                 Global.scene.remove(enemy);
@@ -53,7 +54,14 @@ class Dice extends Group {
                 if (index > -1) Global.enemies.splice(index, 1);
                 index = Global.scene.state.updateList.indexOf(enemy);
                 if (index > -1) Global.scene.state.updateList.splice(index, 1);
+                
             }
+            let index = Global.scene.state.updateList.indexOf(this);
+            if (index > -1) Global.scene.state.updateList.splice(index, 1);
+            Global.scene.remove(this);
+
+            
+            
         }
 
         // Wall collision

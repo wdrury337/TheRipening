@@ -23,9 +23,8 @@ function intersectsWalls(box, wall) {
     return false;
 }
 
-function collision(obj, prevPosition, normal) {
-    let v = obj.position.clone().sub(prevPosition);
-    obj.state.velocity = normal.clone().multiplyScalar(.24);
+function collision(obj, normal, factor) {
+    obj.state.velocity = normal.clone().multiplyScalar(factor);
 }
 
 function spawnRandom() {

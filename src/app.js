@@ -46,7 +46,7 @@ controls.update();
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     if (Global.GAMEOVER) {
-        alert('Game Over.') 
+        alert('Game Over') 
 
     }
     controls.update();
@@ -85,7 +85,7 @@ const onKeyDown = (event) => {
             if (Global.DICE_COOLDOWN == 0){
                 const dice = new Dice(Global.scene);
                 Global.scene.add(dice);
-                Global.DICE_COOLDOWN = 15;
+                Global.DICE_COOLDOWN = Global.DICE_COOLDOWN_MAX;
             } 
     }
 };

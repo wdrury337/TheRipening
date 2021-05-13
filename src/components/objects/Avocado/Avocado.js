@@ -1,7 +1,7 @@
 import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Global, intersectsWalls } from 'global';
+import { Global, intersectsWalls, collision } from 'global';
 import MODEL from './avocado.gltf';
 
 class Avocado extends Group {
@@ -12,9 +12,9 @@ class Avocado extends Group {
         // store object's health
         this.state = { 
             health: 10,
-            speed: .007,
-            damage: 17
-
+            speed: .03,
+            damage: 17,
+            velocity: new Vector3()
         }
 
         // Load object
@@ -48,10 +48,16 @@ class Avocado extends Group {
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
-                collision(this, prevPosition, wall.normal);
+                this.position.copy(prevPosition)
+                this.state.velocity = new Vector3();
+                collision(this, wall.normal, .24);
             }
         }
 
+        if (this.state.velocity.length() > .01){
+            this.position.add(this.state.velocity)
+            this.state.velocity.multiplyScalar(.75);
+        }
     }
 }
 
