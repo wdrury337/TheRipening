@@ -30,7 +30,7 @@ class Clock extends Group {
 
             // Add object to scene
             gltf.scene.scale.set(.005, .005, .005);
-            gltf.scene.position.set(0, 0, 5);
+            gltf.scene.position.set(0, 0, 0);
             this.add(gltf.scene);
 
             // Visualize the objects bounding box for debugging
