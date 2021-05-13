@@ -14,7 +14,8 @@ class Avocado extends Group {
             health: 10,
             speed: Math.random() * .015 + .02,
             damage: 17,
-            velocity: new Vector3()
+            velocity: new Vector3(),
+            xp: 3
         }
 
         // Load object

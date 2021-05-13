@@ -18,6 +18,7 @@ export default {
     DISTANCE_TO_CAMERA: 10,
     CLOCK_HIT_COOLDOWN: 0,
     CLOCK_KICKBACK: .24,
+    XP: 0,
 
     // Dice
     DICE_ROTATION_SPEED: -.1,

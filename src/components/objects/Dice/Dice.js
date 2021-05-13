@@ -4,7 +4,7 @@ import MODEL from './dice.gltf';
 import { Global, intersectsEnemy, intersectsWalls, collision } from 'global';
 
 class Dice extends Group {
-    constructor(parent) {
+    constructor() {
         // Call parent Group() constructor
         super();
 
@@ -24,7 +24,7 @@ class Dice extends Group {
         });
 
         // Add self to parent's update list
-        parent.addToUpdateList(this);
+        //Global.scene.addToUpdateList(this);
     }
 
     update(timeStamp) {
@@ -45,9 +45,12 @@ class Dice extends Group {
         if (enemy !== undefined) {
             let n = enemy.position.clone().sub(Global.clock.position);
             collision(enemy, n, Global.DICE_KICKBACK);
+            enemy.state.health -= Math.random() * 6;
+
             // If enemy health is less than 0, dispose of object
 
             if (enemy.state.health <= 0) {
+                Global.XP += enemy.state.xp;
                 Global.SPAWN = true;
                 Global.scene.remove(enemy);
                 let index = Global.enemies.indexOf(enemy);

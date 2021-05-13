@@ -14,7 +14,8 @@ class Apple extends Group {
             health: 55,
             speed: Math.random() * .01 + .015,
             damage: 15,
-            velocity: new Vector3()
+            velocity: new Vector3(),
+            xp: 20
         }
         // Load object
         // Object fetched from https://poly.google.com/view/4tOmpD9-xsV
