@@ -18,8 +18,9 @@ export default {
 
     // Dice
     DICE_ROTATION_SPEED: -.1,
-    DICE_MOVEMENT_SPEED: .2,
+    DICE_MOVEMENT_SPEED: .3,
     DICE_COOLDOWN: 0,
+    DICE_COOLDOWN_MAX: 10,
 
     // Arena
     ARENA_SIZE: 20,

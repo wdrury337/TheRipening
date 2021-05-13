@@ -18,7 +18,7 @@ class Clock extends Group {
             moveRight: false,
             boundingBox: new Box3(),
             health: 100,
-            velocity: new Vector3
+            velocity: new Vector3()
         };
 
         // Load object
@@ -34,10 +34,10 @@ class Clock extends Group {
             this.add(gltf.scene);
 
             // Visualize the objects bounding box for debugging
-            const box = new Box3().setFromObject(gltf.scene);
-            this.state.boundingBox = box;
-            const helper = new Box3Helper(box, 0xFFFFFF);
-            this.add(helper);
+            //const box = new Box3().setFromObject(gltf.scene);
+            //this.state.boundingBox = box;
+            //const helper = new Box3Helper(box, 0xFFFFFF);
+            //this.add(helper);
 
             // Visualize origin
             const dir = new Vector3(0, 1, 0);
@@ -49,6 +49,7 @@ class Clock extends Group {
         });
 
         // Add self to parent's update list
+        this.position.z = -5;
         parent.addToUpdateList(this);
     }
 
@@ -92,20 +93,14 @@ class Clock extends Group {
             Global.camera.position.add(dir.clone().cross(this.up));
         }
 
-        // Test wall collision. If interesects, set position to previous position
-        for (const wall of Global.walls) {
-            if(intersectsWalls(new Box3().setFromObject(this), wall)) {
-                collision(this, prevPosition, wall.normal);
-                //this.position.copy(prevPosition);
-            }
-        }
+        
 
         const enemy = intersectsEnemy(new Box3().setFromObject(this));
         
         if (Global.CLOCK_HIT_COOLDOWN == 0){
                 if (enemy !== undefined){
                     const n = prevPosition.clone().sub(enemy.position.clone());
-                    collision(this, prevPosition, n);
+                    collision(this, n, .24);
                     Global.CLOCK_HIT_COOLDOWN = 17;
                     this.state.health -= enemy.state.damage;
                     console.log(this.state.health)
@@ -117,7 +112,7 @@ class Clock extends Group {
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
                 this.state.velocity = new Vector3();
-                collision(this, prevPosition, wall.normal);
+                collision(this, wall.normal, .24);
                 //this.position.copy(prevPosition);
             }
         }
