@@ -100,11 +100,10 @@ class Clock extends Group {
         if (Global.CLOCK_HIT_COOLDOWN == 0){
                 if (enemy !== undefined){
                     const n = prevPosition.clone().sub(enemy.position.clone());
-                    collision(this, n, .24);
+                    collision(this, n, Global.CLOCK_KICKBACK);
                     Global.CLOCK_HIT_COOLDOWN = 17;
                     this.state.health -= enemy.state.damage;
                     console.log(this.state.health)
-
             }
         }
         else Global.CLOCK_HIT_COOLDOWN -= 1

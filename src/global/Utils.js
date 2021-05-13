@@ -8,7 +8,6 @@ function intersectsEnemy(box) {
     for (const enemy of Global.enemies) {
         const enemyBox = new Box3().setFromObject(enemy);
         if (box.intersectsBox(enemyBox)) {
-            enemy.state.health -= Math.random() * 6;
             return enemy;
         }
     }

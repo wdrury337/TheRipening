@@ -68,7 +68,7 @@ const onAnimationFrameHandler = (timeStamp) => {
             break;
 
         case Global.DEFEAT:
-            alert('Game Over');
+            alert('Game Over \n Score: ' + Global.XP );
             break;
     }
 };
@@ -103,8 +103,9 @@ const onKeyDown = (event) => {
                 Global.state = Global.PLAY;
             }
             if (Global.DICE_COOLDOWN == 0){
-                const dice = new Dice(Global.scene);
+                const dice = new Dice();
                 Global.scene.add(dice);
+                Global.scene.state.updateList.push(dice);
                 Global.DICE_COOLDOWN = Global.DICE_COOLDOWN_MAX;
             } 
     }

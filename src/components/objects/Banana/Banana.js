@@ -1,7 +1,7 @@
 import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Global, intersectsWalls, collision } from 'global';
+import { Global, intersectsWalls, intersectsEnemy, collision } from 'global';
 import MODEL from './banana.gltf';
 
 class Banana extends Group {
@@ -15,7 +15,8 @@ class Banana extends Group {
             health: 30,
             speed: Math.random() * .015 + .03,
             damage: 5,
-            velocity: new Vector3()
+            velocity: new Vector3(),
+            xp: 10
         }
 
         // Load object
