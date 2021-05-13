@@ -28,13 +28,13 @@ function collision(obj, normal, factor) {
 }
 
 function spawnRandom() {
-    const enemy = Math.floor(Math.random() * 3);
-    if (enemy == 0){
+    const enemy = Math.random() * 100;
+    if (enemy < 50){
         let enemy1 = new Avocado(Global.scene);
         Global.enemies.push(enemy1);
         Global.scene.add(enemy1);
     }
-    else if(enemy == 1){
+    else if(enemy < 80){
         let enemy1 = new Banana(Global.scene);
         Global.enemies.push(enemy1);
         Global.scene.add(enemy1);

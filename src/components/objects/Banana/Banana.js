@@ -12,8 +12,8 @@ class Banana extends Group {
 
         // store object's health
         this.state = { 
-            health: 50,
-            speed: .04,
+            health: 30,
+            speed: Math.random() * .015 + .03,
             damage: 5,
             velocity: new Vector3()
         }
@@ -48,7 +48,7 @@ class Banana extends Group {
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
                 this.state.velocity = new Vector3();
-                collision(this, wall.normal, .24);
+                collision(this, wall.normal, Global.CLOCK_KICKBACK);
             }
         }
 

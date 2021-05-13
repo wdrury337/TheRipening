@@ -12,7 +12,7 @@ class Avocado extends Group {
         // store object's health
         this.state = { 
             health: 10,
-            speed: .03,
+            speed: Math.random() * .015 + .02,
             damage: 17,
             velocity: new Vector3()
         }
@@ -50,7 +50,7 @@ class Avocado extends Group {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
                 this.position.copy(prevPosition)
                 this.state.velocity = new Vector3();
-                collision(this, wall.normal, .24);
+                collision(this, wall.normal, Global.CLOCK_KICKBACK);
             }
         }
 
