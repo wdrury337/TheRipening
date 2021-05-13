@@ -56,7 +56,7 @@ class Clock extends Group {
     update(timeStamp) {
         if (this.state.health <= 0) {
             Global.scene.remove(this);
-            Global.GAMEOVER = true;
+            Global.state = Global.DEFEAT;
             return
         }
         const prevPosition = this.position.clone();

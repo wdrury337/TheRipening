@@ -8,7 +8,7 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene } from 'scenes';
+import { StartScene, PlayScene } from 'scenes';
 import { Global } from './global';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import Dice from './components/objects/Dice/Dice';
@@ -22,8 +22,8 @@ camera.position.set(0, 25, -70);
 camera.lookAt(new Vector3(0, 0, 0));
 Global.camera = camera;
 
-const scene = new SeedScene();
-Global.scene = scene;
+const startScene = new StartScene();
+const playScene = new PlayScene();
 
 const renderer = new WebGLRenderer({ antialias: true });
 
@@ -45,15 +45,34 @@ controls.update();
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    if (Global.GAMEOVER) {
-        alert('Game Over') 
+    let scene;
+    console.log(Global.state);
+    console.log(Global.START)
+    switch (Global.state) {
 
+        case Global.START:
+            scene = startScene;
+            Global.scene = startScene;
+            controls.update();
+            camera.lookAt(Global.clock.position);
+            renderer.render(scene, camera);
+            window.requestAnimationFrame(onAnimationFrameHandler);
+            break;
+
+        case Global.PLAY:
+            scene = playScene;
+            Global.scene = playScene;
+            controls.update();
+            camera.lookAt(Global.clock.position);
+            renderer.render(scene, camera);
+            scene.update && scene.update(timeStamp);
+            window.requestAnimationFrame(onAnimationFrameHandler);
+            break;
+
+        case Global.DEFEAT:
+            alert('Game Over');
+            break;
     }
-    controls.update();
-    camera.lookAt(Global.clock.position);
-    renderer.render(scene, camera);
-    scene.update && scene.update(timeStamp);
-    window.requestAnimationFrame(onAnimationFrameHandler);
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
 
@@ -82,6 +101,9 @@ const onKeyDown = (event) => {
             clock.state.moveRight = true;
             break;
         case ' ':
+            if (Global.state == Global.START) {
+                Global.state = Global.PLAY;
+            }
             if (Global.DICE_COOLDOWN == 0){
                 const dice = new Dice(Global.scene);
                 Global.scene.add(dice);
