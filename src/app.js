@@ -117,6 +117,7 @@ const onKeyDown = (event) => {
                 for (const text of Global.text) {
                     Global.scene.remove(text);
                 }
+                Global.xp = 0;
                 controls.enableRotate = true;
                 Global.state = Global.PLAY;
                 spawn();

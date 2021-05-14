@@ -59,7 +59,6 @@ function spawn() {
 // Reset global variables after defeat
 function restart() {
     Global.state = Global.DEFEAT;
-    Global.xp = 0;
     Global.level = 1;
     Global.level_xp = 0;
     Global.scene.updateList = [];
