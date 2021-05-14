@@ -9,6 +9,7 @@ import {
     FrontSide,
     ArrowHelper,
     Plane, 
+    TextureLoader
 } from 'three';
 
 import { Global} from 'global';
@@ -26,11 +27,23 @@ class Wall extends Mesh {
         dist: new Vector3(x, 0, z).length(),
     }
 
+
+    const textureLoader = new TextureLoader();
+
+    // load a texture
+    const texture = textureLoader.load(
+      '/src/components/objects/Wall/ripe.jpg',
+    );
+
     // Create wall material 
     this.material = new MeshBasicMaterial({
       color: hexColor,
       side: FrontSide,
+      map: texture
     });
+
+    
+
     this.geometry = new PlaneGeometry(width, height);
 
     // Create new mesh and position wall

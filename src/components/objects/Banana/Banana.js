@@ -44,7 +44,9 @@ class Banana extends Group {
         box.getCenter(c)
         const dir = Global.clock.position.clone().sub(c).setY(0).normalize();
         this.position.add(dir.multiplyScalar(this.state.speed));
-
+        
+        this.lookAt(Global.clock.position.clone());
+        this.rotateOnAxis(this.up, Global.BANANA_ROTATION_OFFSET);
 
         
         // Wall intersection
@@ -63,7 +65,6 @@ class Banana extends Group {
         
         if (enemy !== undefined){
             const n = this.position.clone().sub(enemy.position.clone()).normalize();
-            const point = this.position.clone();
             this.position.copy(prevPosition.clone().add(n.clone().multiplyScalar(.005)));
         }
 

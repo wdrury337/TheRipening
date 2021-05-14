@@ -51,7 +51,7 @@ class Dice extends Group {
             if (enemy.state.health <= 0) {
                 Global.XP += enemy.state.xp;
                 Global.LEVEL_XP += enemy.state.xp;
-                if (Global.LEVEL_XP >= 40) {
+                if (Global.LEVEL_XP >= 100) {
                     Global.LEVEL += 1; 
                     Global.LEVEL_XP = 0;
                 }

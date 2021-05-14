@@ -29,6 +29,9 @@ export default {
     DICE_COOLDOWN_MAX: 15,
     DICE_KICKBACK: .05,
 
+    // Banana
+    BANANA_ROTATION_OFFSET: 0.05*Math.PI,
+
     // Arena
     ARENA_SIZE: 20,
 

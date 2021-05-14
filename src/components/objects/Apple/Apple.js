@@ -47,11 +47,6 @@ class Apple extends Group {
 
         const enemy = intersectsEnemy(this);
         
-        if (enemy !== undefined){
-            const n = this.position.clone().sub(enemy.position.clone()).normalize();
-            const point = this.position.clone();
-            this.position.copy(prevPosition.clone().add(n.clone().multiplyScalar(.005)));
-        }
 
 
         // Wall intersection
@@ -65,6 +60,11 @@ class Apple extends Group {
         if (this.state.velocity.length() > .01){
             this.position.add(this.state.velocity)
             this.state.velocity.multiplyScalar(.75);
+        }
+        
+        if (enemy !== undefined){
+            const n = this.position.clone().sub(enemy.position.clone()).normalize();
+            this.position.copy(prevPosition.clone().add(n.clone().multiplyScalar(.005)));
         }
     }
 }

@@ -93,8 +93,6 @@ class Clock extends Group {
             Global.camera.position.add(dir.clone().cross(this.up));
         }
 
-        
-
         const enemy = intersectsEnemy(this);
         
         if (Global.CLOCK_HIT_COOLDOWN == 0){
