@@ -50,7 +50,6 @@ class Clock extends Group {
             const text = new DefeatText(Global.scene);
             Global.scene.add(text);
             Global.state = Global.DEFEAT;
-            console.log(Global.xp);
         }
         else {
             const prevPosition = this.position.clone();
