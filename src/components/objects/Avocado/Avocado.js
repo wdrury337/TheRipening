@@ -43,9 +43,6 @@ class Avocado extends Group {
         const dir = Global.clock.position.clone().sub(center).setY(0).normalize();
         this.position.add(dir.multiplyScalar(this.state.speed)); 
 
-        // Rotation
-        this.lookAt(Global.clock.position.clone());
-            
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {

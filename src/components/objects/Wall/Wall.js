@@ -31,7 +31,6 @@ class Wall extends Mesh {
     const textureLoader = new TextureLoader();
     let texture;
     // load a texture
-    console.log(Math.random())
     if(Math.random() > .5){
       texture = textureLoader.load(
         '/src/components/objects/Wall/ripe.jpg',
