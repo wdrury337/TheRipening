@@ -23,21 +23,6 @@ class Wall extends Mesh {
         dist: new Vector3(x, 0, z).length(),
     }
 
-
-    const textureLoader = new TextureLoader();
-    let texture;
-    // load a texture
-    if(Math.random() > .5){
-      texture = textureLoader.load(
-        'https://github.com/wdrury337/TheRipening/tree/main/src/components/objects/Wall/ripe.jpg',
-      );
-    }
-    else{
-      texture = textureLoader.load(
-        'https://github.com/wdrury337/TheRipening/tree/main/src/components/objects/Wall/avocadoripe.jpg',
-      );
-    } 
-
     // Create wall material 
     this.material = new MeshBasicMaterial({
       color: hexColor,
