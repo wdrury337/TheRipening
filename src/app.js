@@ -2,40 +2,44 @@
  * app.js
  *
  * This is the first file loaded. It sets up the Renderer,
- * Scene and Camera. It also starts the render loop and
- * handles window resizes.
+ * Scene, Camera and the player. It also
+ * handles window resizes, key presses and state changes.
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Clock } from 'objects';
 import { PlayScene } from 'scenes';
-import { Global } from './global';
+import { Global, spawn } from './global';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import Dice from './components/objects/Dice/Dice';
 
-// Initialize core ThreeJS components
+// Object loader
 const loader = new GLTFLoader();
 Global.loader = loader;
 
+// Camera
 const camera = new PerspectiveCamera();
 camera.position.set(0, 10, -70);
 camera.lookAt(new Vector3(0, 0, 0));
 Global.camera = camera;
 
+// Default scene
 const scene = new PlayScene();
 Global.scene = scene;
+
+// Initial game state
+Global.state = Global.START;
+
+// Player
 const clock = new Clock(scene);
 const cameraXY = Global.camera.position.clone().setY(0); 
 clock.lookAt(cameraXY);
 clock.rotateOnAxis(clock.up, Global.CLOCK_ROTATION_OFFSET);
 Global.clock = clock;
 
-Global.state = Global.START;
-
-const renderer = new WebGLRenderer({ antialias: true });
-
 // Set up renderer, canvas, and minor CSS adjustments
+const renderer = new WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(window.devicePixelRatio);
 const canvas = renderer.domElement;
 canvas.style.display = 'block'; // Removes padding below canvas
@@ -76,7 +80,6 @@ const onAnimationFrameHandler = (timeStamp) => {
         case Global.DEFEAT:
             camera.position.set(0, 10, -70);
             controls.update();
-            camera.lookAt(new Vector3(0,0,0));
             renderer.render(scene, camera);
             window.requestAnimationFrame(onAnimationFrameHandler);
             break;
@@ -108,18 +111,22 @@ const onKeyDown = (event) => {
             clock.state.moveRight = true;
             break;
         case ' ':
+            // Start/restart game
             if (Global.state == Global.START || Global.state == Global.DEFEAT) {
                 for (const text of Global.text) {
                     Global.scene.remove(text);
                 }
                 controls.enableRotate = true;
                 Global.state = Global.PLAY;
+                spawn();
             }
-            if (Global.DICE_COOLDOWN <= 0){
+
+            // Shoot
+            else if (Global.dice_cooldown <= 0){
                 const dice = new Dice();
                 Global.scene.add(dice);
                 Global.scene.state.updateList.push(dice);
-                Global.DICE_COOLDOWN = Math.floor(Global.DICE_COOLDOWN_MAX/Math.min(3,Global.LEVEL));
+                Global.dice_cooldown = Math.floor(Global.DICE_COOLDOWN_MAX/Math.min(3,Global.level));
             } 
             break;
     }
@@ -143,6 +150,7 @@ const onKeyUp = (event) => {
     }
 };
 
+// Add event listeners
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 window.addEventListener('keydown', onKeyDown);
