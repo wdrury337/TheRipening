@@ -1,5 +1,5 @@
 import { Scene, Color, Vector3 } from 'three';
-import { Clock, Banana, Apple, Avocado, Floor, Wall} from 'objects';
+import { Floor, Wall, StartText} from 'objects';
 import { BasicLights } from 'lights';
 import { Global, spawnRandom } from 'global';
 
@@ -17,20 +17,10 @@ class PlayScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0xccffff);
 
-        // Add meshes to scene
-        const clock = new Clock(this);
-        Global.clock = clock;
-
         const lights = new BasicLights();
-
-        const apple = new Apple(this);
-        const avocado = new Avocado(this);
-        const banana = new Banana(this);
-        Global.enemies.push(apple);
-        Global.enemies.push(avocado);
-        Global.enemies.push(banana);
-
         const floor = new Floor(this, 20);
+
+        const text = new StartText(this);
 
         const arenaRadius = Global.ARENA_SIZE/2;
 
@@ -46,18 +36,13 @@ class PlayScene extends Scene {
         const front = new Vector3(0, 3*Math.PI/2, 0);
         const back = new Vector3(Math.PI, Math.PI/2, 0);
 
-        const lWall = new Wall(this, 0, arenaRadius, Global.ARENA_SIZE, 5, pink, right);
+        const lWall = new Wall(this, 0, arenaRadius, Global.ARENA_SIZE, 5, green, right);
         const rWall = new Wall(this, 0, -arenaRadius, Global.ARENA_SIZE, 5, purple, left);
-        const fWall = new Wall(this, arenaRadius, 0, Global.ARENA_SIZE, 5, green, front);
+        const fWall = new Wall(this, arenaRadius, 0, Global.ARENA_SIZE, 5, pink, front);
         const bWall = new Wall(this, -arenaRadius, 0, Global.ARENA_SIZE, 5, blue, back);     
-        
-        // Clock here refers to the player
-        this.state.clock = clock;
-        Global.clock = clock;
 
         // Add all the objects to the initial scene
-        this.add(clock, banana, apple, avocado, floor, lWall, rWall, fWall, bWall, lights);
-
+        this.add(floor, lWall, rWall, fWall, bWall, text, lights);
     }
 
     addToUpdateList(object) {

@@ -4,7 +4,7 @@ import MODEL from './dice.gltf';
 import { Global, intersectsEnemy, intersectsWalls, collision } from 'global';
 
 class Dice extends Group {
-    constructor() {
+    constructor(parent) {
         // Call parent Group() constructor
         super();
 
@@ -22,14 +22,10 @@ class Dice extends Group {
             gltf.scene.position.set(Global.clock.position.x, Global.clock.position.y, Global.clock.position.z);
             this.add(gltf.scene);
         });
-
-        // Add self to parent's update list
-        //Global.scene.addToUpdateList(this);
     }
 
     update(timeStamp) {
         this.position.add(this.state.direction.clone().multiplyScalar(Global.DICE_MOVEMENT_SPEED));
-        // this.rotateOnAxis(this.state.direction.clone().cross(this.up), Global.DICE_ROTATION_SPEED);
         
         const diceBox = new Box3().setFromObject(this);
         const enemy = intersectsEnemy(diceBox);

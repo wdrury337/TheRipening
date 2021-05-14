@@ -6,6 +6,7 @@ export default {
     clock: null,
     enemies: [],
     walls: [],
+    text: [],
     state: 1,
 
     /*************************************
@@ -14,7 +15,7 @@ export default {
 
     // Clock
     MOVEMENT_SPEED: .1,
-    CLOCK_ROTATION_OFFSET: .75 * Math.PI,
+    CLOCK_ROTATION_OFFSET: .775 * Math.PI,
     DISTANCE_TO_CAMERA: 10,
     CLOCK_HIT_COOLDOWN: 0,
     CLOCK_KICKBACK: .24,
@@ -31,10 +32,13 @@ export default {
     ARENA_SIZE: 20,
 
     // Flags
-    SPAWN: false,
+    SPAWN: true,
 
     // Game States
     START: 1,
     PLAY: 2, 
     DEFEAT: 3,
+
+    // Camera
+    CAMERA_ROTATION_SPEED: 1,
 };

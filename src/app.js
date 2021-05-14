@@ -8,7 +8,8 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { StartScene, PlayScene } from 'scenes';
+import { Clock } from 'objects';
+import { PlayScene } from 'scenes';
 import { Global } from './global';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import Dice from './components/objects/Dice/Dice';
@@ -18,12 +19,19 @@ const loader = new GLTFLoader();
 Global.loader = loader;
 
 const camera = new PerspectiveCamera();
-camera.position.set(0, 25, -70);
+camera.position.set(0, 10, -70);
 camera.lookAt(new Vector3(0, 0, 0));
 Global.camera = camera;
 
-const startScene = new StartScene();
-const playScene = new PlayScene();
+const scene = new PlayScene();
+Global.scene = scene;
+const clock = new Clock(scene);
+const cameraXY = Global.camera.position.clone().setY(0); 
+clock.lookAt(cameraXY);
+clock.rotateOnAxis(clock.up, Global.CLOCK_ROTATION_OFFSET);
+Global.clock = clock;
+
+Global.state = Global.START;
 
 const renderer = new WebGLRenderer({ antialias: true });
 
@@ -41,16 +49,16 @@ controls.enableDamping = true;
 controls.enablePan = false;
 controls.minDistance = 4;
 controls.maxDistance = 16;
+controls.maxPolarAngle = Math.PI/2.1;
+controls.minPolarAngle = Math.PI/3;
 controls.update();
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    let scene;
     switch (Global.state) {
 
         case Global.START:
-            scene = startScene;
-            Global.scene = startScene;
+            controls.enableRotate = false;
             controls.update();
             camera.lookAt(Global.clock.position);
             renderer.render(scene, camera);
@@ -58,8 +66,6 @@ const onAnimationFrameHandler = (timeStamp) => {
             break;
 
         case Global.PLAY:
-            scene = playScene;
-            Global.scene = playScene;
             controls.update();
             camera.lookAt(Global.clock.position);
             renderer.render(scene, camera);
@@ -68,7 +74,11 @@ const onAnimationFrameHandler = (timeStamp) => {
             break;
 
         case Global.DEFEAT:
-            alert('Game Over \n Score: ' + Global.XP );
+            camera.position.set(0, 10, -70);
+            controls.update();
+            camera.lookAt(new Vector3(0,0,0));
+            renderer.render(scene, camera);
+            window.requestAnimationFrame(onAnimationFrameHandler);
             break;
     }
 };
@@ -84,7 +94,6 @@ const windowResizeHandler = () => {
 
 // Keydown handler
 const onKeyDown = (event) => {
-    const clock = Global.clock;
     switch (event.key) {
         case 'w': 
             clock.state.moveForward = true;
@@ -99,15 +108,20 @@ const onKeyDown = (event) => {
             clock.state.moveRight = true;
             break;
         case ' ':
-            if (Global.state == Global.START) {
+            if (Global.state == Global.START || Global.state == Global.DEFEAT) {
+                for (const text of Global.text) {
+                    Global.scene.remove(text);
+                }
+                controls.enableRotate = true;
                 Global.state = Global.PLAY;
             }
-            if (Global.DICE_COOLDOWN == 0){
-                const dice = new Dice();
+            else if (Global.DICE_COOLDOWN == 0){
+                const dice = new Dice(scene);
                 Global.scene.add(dice);
                 Global.scene.state.updateList.push(dice);
                 Global.DICE_COOLDOWN = Global.DICE_COOLDOWN_MAX;
             } 
+            break;
     }
 };
 

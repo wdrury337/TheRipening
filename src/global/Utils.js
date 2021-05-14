@@ -1,6 +1,6 @@
 import { Global } from 'global';
-import { Box3, Vector3 } from 'three';
-import { Clock, Land, Banana, Room, Apple, Avocado, Dice} from 'objects';
+import { Box3 } from 'three';
+import { Banana, Apple, Avocado } from 'objects';
 
 
 function intersectsEnemy(box) {
