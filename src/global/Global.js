@@ -20,13 +20,18 @@ export default {
     CLOCK_HIT_COOLDOWN: 0,
     CLOCK_KICKBACK: .24,
     XP: 0,
+    LEVEL_XP: 0,
+    LEVEL: 1,
 
     // Dice
     DICE_ROTATION_SPEED: -.1,
     DICE_MOVEMENT_SPEED: .3,
     DICE_COOLDOWN: 0,
-    DICE_COOLDOWN_MAX: 10,
+    DICE_COOLDOWN_MAX: 15,
     DICE_KICKBACK: .05,
+
+    // Banana
+    BANANA_ROTATION_OFFSET: 0.05*Math.PI,
 
     // Arena
     ARENA_SIZE: 20,

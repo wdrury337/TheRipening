@@ -38,13 +38,17 @@ class Banana extends Group {
         TWEEN.update();
 
         // Movement
-        const prevPosition = this.position;
+        const prevPosition = this.position.clone();
         const box = new Box3().setFromObject(this).clone();
         const c = new Vector3();
         box.getCenter(c)
         const dir = Global.clock.position.clone().sub(c).setY(0).normalize();
         this.position.add(dir.multiplyScalar(this.state.speed));
+        
+        this.lookAt(Global.clock.position.clone());
+        this.rotateOnAxis(this.up, Global.BANANA_ROTATION_OFFSET);
 
+        
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
@@ -57,6 +61,13 @@ class Banana extends Group {
             this.position.add(this.state.velocity)
             this.state.velocity.multiplyScalar(.75);
         }
+        const enemy = intersectsEnemy(this);
+        
+        if (enemy !== undefined){
+            const n = this.position.clone().sub(enemy.position.clone()).normalize();
+            this.position.copy(prevPosition.clone().add(n.clone().multiplyScalar(.005)));
+        }
+
     }
 }
 

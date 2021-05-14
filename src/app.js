@@ -115,11 +115,11 @@ const onKeyDown = (event) => {
                 controls.enableRotate = true;
                 Global.state = Global.PLAY;
             }
-            else if (Global.DICE_COOLDOWN == 0){
-                const dice = new Dice(scene);
+            if (Global.DICE_COOLDOWN <= 0){
+                const dice = new Dice();
                 Global.scene.add(dice);
                 Global.scene.state.updateList.push(dice);
-                Global.DICE_COOLDOWN = Global.DICE_COOLDOWN_MAX;
+                Global.DICE_COOLDOWN = Math.floor(Global.DICE_COOLDOWN_MAX/Math.min(3,Global.LEVEL));
             } 
             break;
     }
@@ -127,7 +127,6 @@ const onKeyDown = (event) => {
 
 // Keyup Handler
 const onKeyUp = (event) => {
-    const clock = Global.clock;
     switch (event.key) {
         case 'w': 
             clock.state.moveForward = false;

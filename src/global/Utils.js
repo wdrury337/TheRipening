@@ -3,12 +3,15 @@ import { Box3 } from 'three';
 import { Banana, Apple, Avocado } from 'objects';
 
 
-function intersectsEnemy(box) {
+function intersectsEnemy(obj) {
+    const box = new Box3().setFromObject(obj);
     if (Global.enemies == undefined) return undefined;
     for (const enemy of Global.enemies) {
-        const enemyBox = new Box3().setFromObject(enemy);
-        if (box.intersectsBox(enemyBox)) {
-            return enemy;
+        const enemyInd = Global.enemies.indexOf(enemy)
+        const objInd = Global.enemies.indexOf(obj)
+        if(objInd != enemyInd){
+            const enemyBox = new Box3().setFromObject(enemy);
+            if (box.intersectsBox(enemyBox)) return enemy;   
         }
     }
     return undefined;
