@@ -44,8 +44,8 @@ class Avocado extends Group {
         const c = new Vector3();
         box.getCenter(c)
         const dir = Global.clock.position.clone().sub(c).setY(0).normalize();
-        this.position.add(dir.multiplyScalar(this.state.speed));        
-    
+        this.position.add(dir.multiplyScalar(this.state.speed)); 
+            
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
@@ -64,7 +64,6 @@ class Avocado extends Group {
 
         if (enemy !== undefined){
             const n = this.position.clone().sub(enemy.position.clone()).normalize();
-            const point = this.position.clone();
             this.position.copy(prevPosition.clone().add(n.clone().multiplyScalar(.05)));
         }
     }
