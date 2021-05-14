@@ -12,17 +12,14 @@ class PlayScene extends Scene {
         this.state = {
             updateList: [],
         };
-        this.name = "scene";
 
         // Set background to a nice color
         this.background = new Color(0xccffff);
 
+        // Add lights, text, and floor
         const lights = new BasicLights();
-        const floor = new Floor(this, 20);
-
         const text = new StartText(this);
-
-        const arenaRadius = Global.ARENA_SIZE/2;
+        const floor = new Floor(this, 20);
 
         // Wall colors
         const pink = 0xffb6c1;
@@ -36,6 +33,7 @@ class PlayScene extends Scene {
         const front = new Vector3(0, 3*Math.PI/2, 0);
         const back = new Vector3(Math.PI, Math.PI/2, 0);
 
+        const arenaRadius = Global.ARENA_SIZE/2;
         const lWall = new Wall(this, 0, arenaRadius, Global.ARENA_SIZE, 5, green, right);
         const rWall = new Wall(this, 0, -arenaRadius, Global.ARENA_SIZE, 5, purple, left);
         const fWall = new Wall(this, arenaRadius, 0, Global.ARENA_SIZE, 5, pink, front);
@@ -53,21 +51,12 @@ class PlayScene extends Scene {
         const { updateList } = this.state;
 
         // Update die cooldown 
-        if (Global.DICE_COOLDOWN > 0) Global.DICE_COOLDOWN -= 1;
+        if (Global.dice_cooldown > 0) Global.dice_cooldown -= 1;
             
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
-        }
-
-        // Spawn new
-        if (Global.SPAWN){
-            
-            spawnRandom();
-            spawnRandom();
-
-            Global.SPAWN = false;
-        }  
+        } 
     }
 }
 

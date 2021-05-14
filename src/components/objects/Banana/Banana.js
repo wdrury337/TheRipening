@@ -1,6 +1,4 @@
-import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import { Group, Box3, Vector3 } from 'three';
 import { Global, intersectsWalls, intersectsEnemy, collision } from 'global';
 import MODEL from './banana.gltf';
 
@@ -9,23 +7,26 @@ class Banana extends Group {
         // Call parent Group() constructor
         super();
 
-
-        // store object's health
+        // Init state
         this.state = { 
+            maxHealth: 30,
             health: 30,
             speed: Math.random() * .015 + .03,
             damage: 5,
             velocity: new Vector3(),
-            xp: 10
+            xp: 10,
+            baseColor: [],
+            rotationOffset: 0.05*Math.PI,
         }
 
         // Load object
         const loader = Global.loader;
-
-        this.name = 'banana';
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.multiplyScalar(1 / 70);
             gltf.scene.position.set(-1, .7, 1);
+            for (let i = 0; i < gltf.scene.children[0].children.length; i++) {
+                this.state.baseColor.push(gltf.scene.children[0].children[i].material.color);
+            }
             this.add(gltf.scene);
         });
 
@@ -34,8 +35,6 @@ class Banana extends Group {
     }
 
     update(timeStamp) {
-        // Advance tween animations, if any exist
-        TWEEN.update();
 
         // Movement
         const prevPosition = this.position.clone();
@@ -45,10 +44,10 @@ class Banana extends Group {
         const dir = Global.clock.position.clone().sub(c).setY(0).normalize();
         this.position.add(dir.multiplyScalar(this.state.speed));
         
+        // Rotation
         this.lookAt(Global.clock.position.clone());
-        this.rotateOnAxis(this.up, Global.BANANA_ROTATION_OFFSET);
+        this.rotateOnAxis(this.up, this.state.rotationOffset);
 
-        
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {

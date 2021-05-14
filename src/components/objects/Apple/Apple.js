@@ -1,6 +1,4 @@
-import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import { Group, Box3, Vector3 } from 'three';
 import { Global, intersectsWalls, collision, intersectsEnemy } from 'global';
 import MODEL from './apple.gltf';
 
@@ -9,22 +7,25 @@ class Apple extends Group {
         // Call parent Group() constructor
         super();
 
-        // store object's information
+        // Init state
         this.state = { 
+            maxHealth: 55,
             health: 55,
             speed: Math.random() * .01 + .015,
             damage: 15,
             velocity: new Vector3(),
-            xp: 20
+            xp: 20,
+            baseColor: [],
         }
-        // Load object
+
         // Object fetched from https://poly.google.com/view/4tOmpD9-xsV
         const loader = Global.loader;
-        
-        this.name = 'apple';
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.multiplyScalar(1 / 10);
             gltf.scene.position.set(1, .05, 1);
+            for (let i = 0; i < gltf.scene.children[0].children.length; i++) {
+                this.state.baseColor.push(gltf.scene.children[0].children[i].material.color);
+            }
             this.add(gltf.scene);
         });
 
@@ -33,21 +34,17 @@ class Apple extends Group {
     }
 
     update(timeStamp) {
-        // Advance tween animations, if any exist
-        TWEEN.update();
 
         // Movement        
         const prevPosition = this.position;
-
         const box = new Box3().setFromObject(this).clone();
         const c = new Vector3();
         box.getCenter(c)
         const dir = Global.clock.position.clone().sub(c).setY(0).normalize();
         this.position.add(dir.multiplyScalar(this.state.speed));
 
-        const enemy = intersectsEnemy(this);
-        
-
+        // Rotation
+        this.lookAt(Global.clock.position.clone());
 
         // Wall intersection
         for (const wall of Global.walls) {
@@ -57,11 +54,14 @@ class Apple extends Group {
             }
         }
 
+        // Handle wall collision
         if (this.state.velocity.length() > .01){
             this.position.add(this.state.velocity)
             this.state.velocity.multiplyScalar(.75);
         }
         
+        // Handle enemy collision
+        const enemy = intersectsEnemy(this);
         if (enemy !== undefined){
             const n = this.position.clone().sub(enemy.position.clone()).normalize();
             this.position.copy(prevPosition.clone().add(n.clone().multiplyScalar(.005)));

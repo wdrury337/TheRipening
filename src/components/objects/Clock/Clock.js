@@ -1,6 +1,5 @@
 import { Group, Box3, Vector3 } from 'three';
-import { Global, intersectsWalls, collision } from 'global';
-import { intersectsEnemy } from '../../../global';
+import { Global, intersectsWalls, intersectsEnemy, collision } from 'global';
 import { DefeatText } from 'objects';
 import MODEL from './clock.gltf';
 
@@ -17,7 +16,9 @@ class Clock extends Group {
             moveRight: false,
             boundingBox: new Box3(),
             health: 100,
-            velocity: new Vector3()
+            kickback: .24,
+            speed: .1,
+            velocity: new Vector3(),
         };
 
         // Load object
@@ -45,46 +46,29 @@ class Clock extends Group {
             this.position.set(0, 0, -5);
             this.lookAt(new Vector3(0, 0, -70));
             this.rotateOnAxis(this.up, Global.CLOCK_ROTATION_OFFSET);
-            
+            this.state.velocity = new Vector3(0, 0, 0);
             const text = new DefeatText(Global.scene);
             Global.scene.add(text);
-
             Global.state = Global.DEFEAT;
-            Global.scene.updateList = [];
-            for (const enemy of Global.enemies) {
-                Global.scene.remove(enemy);
-            }
-            Global.enemies = [];
-
-            console.log(this);
-            
-            return
         }
         else {
             const prevPosition = this.position.clone();
 
-            // Update clock to always face the camera position
-            const cameraXY = Global.camera.position.clone().setY(0); 
-            this.lookAt(cameraXY);
+            // Rotation
+            this.lookAt(Global.camera.position.clone().setY(0));
             this.rotateOnAxis(this.up, Global.CLOCK_ROTATION_OFFSET);
-
             const toClock = this.position.clone().sub(Global.camera.position);
-            const dir = new Vector3(toClock.x, 0, toClock.z).normalize().multiplyScalar(Global.MOVEMENT_SPEED);
+            const dir = new Vector3(toClock.x, 0, toClock.z).normalize().multiplyScalar(this.state.speed);
 
             // Handle events triggered by key presses
             if (this.state.moveForward) {
                 this.position.add(dir);
-                const distToCamera = this.position.distanceTo(Global.camera.position);
-                if (distToCamera >= Global.DISTANCE_TO_CAMERA) {
-                    Global.camera.position.add(dir);
-                }
+                Global.camera.position.add(dir);
+
             }
             if (this.state.moveBackward) {
                 this.position.add(dir.clone().multiplyScalar(-1));
-                const distToCamera = this.position.distanceTo(Global.camera.position);
-                if (distToCamera <= Global.DISTANCE_TO_CAMERA) {
-                    Global.camera.position.add(dir.clone().multiplyScalar(-1));
-                }
+                Global.camera.position.add(dir.clone().multiplyScalar(-1));
             }
             if (this.state.moveLeft) {
                 this.position.add(dir.clone().cross(this.up).multiplyScalar(-1));
@@ -96,24 +80,23 @@ class Clock extends Group {
             }
 
             const enemy = intersectsEnemy(this);
-            
-            if (Global.CLOCK_HIT_COOLDOWN == 0){
+            if (Global.clock_hit_cooldown == 0){
                 if (enemy !== undefined){
                     const n = prevPosition.clone().sub(enemy.position.clone());
-                    collision(this, n, Global.CLOCK_KICKBACK);
-                    Global.CLOCK_HIT_COOLDOWN = 17;
+                    collision(this, n, this.state.kickback);
+                    Global.clock_hit_cooldown = 17;
                     this.state.health -= enemy.state.damage;
                 }
             }
 
-            else Global.CLOCK_HIT_COOLDOWN -= 1
+            else Global.clock_hit_cooldown -= 1;
 
             // Test wall collision. If interesects, set position to previous position
             for (const wall of Global.walls) {
                 if(intersectsWalls(new Box3().setFromObject(this), wall)) {
                     this.state.velocity = new Vector3();
                     collision(this, wall.normal, .24);
-                    //this.position.copy(prevPosition);
+                    this.position.copy(prevPosition);
                 }
             }
 
