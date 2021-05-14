@@ -77,12 +77,12 @@ const onAnimationFrameHandler = (timeStamp) => {
             break;
 
         case Global.DEFEAT:
-            restart();
             controls.enableRotate = false;
             camera.position.set(0, 10, -70);
             controls.update();
             renderer.render(scene, camera);
             window.requestAnimationFrame(onAnimationFrameHandler);
+            restart();
             break;
     }
 };
