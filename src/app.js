@@ -102,11 +102,11 @@ const onKeyDown = (event) => {
             if (Global.state == Global.START) {
                 Global.state = Global.PLAY;
             }
-            if (Global.DICE_COOLDOWN == 0){
+            if (Global.DICE_COOLDOWN <= 0){
                 const dice = new Dice();
                 Global.scene.add(dice);
                 Global.scene.state.updateList.push(dice);
-                Global.DICE_COOLDOWN = Global.DICE_COOLDOWN_MAX;
+                Global.DICE_COOLDOWN = Math.floor(Global.DICE_COOLDOWN_MAX/Math.min(3,Global.LEVEL));
             } 
     }
 };

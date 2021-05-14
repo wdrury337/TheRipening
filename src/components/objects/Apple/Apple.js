@@ -1,7 +1,7 @@
 import { Group, Box3, Box3Helper, Vector3, ArrowHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Global, intersectsWalls, collision } from 'global';
+import { Global, intersectsWalls, collision, intersectsEnemy } from 'global';
 import MODEL from './apple.gltf';
 
 class Apple extends Group {
@@ -44,6 +44,15 @@ class Apple extends Group {
         box.getCenter(c)
         const dir = Global.clock.position.clone().sub(c).setY(0).normalize();
         this.position.add(dir.multiplyScalar(this.state.speed));
+
+        const enemy = intersectsEnemy(this);
+        
+        if (enemy !== undefined){
+            const n = this.position.clone().sub(enemy.position.clone()).normalize();
+            const point = this.position.clone();
+            this.position.copy(prevPosition.clone().add(n.clone().multiplyScalar(.005)));
+        }
+
 
         // Wall intersection
         for (const wall of Global.walls) {

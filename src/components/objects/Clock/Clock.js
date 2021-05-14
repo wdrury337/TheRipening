@@ -95,7 +95,7 @@ class Clock extends Group {
 
         
 
-        const enemy = intersectsEnemy(new Box3().setFromObject(this));
+        const enemy = intersectsEnemy(this);
         
         if (Global.CLOCK_HIT_COOLDOWN == 0){
                 if (enemy !== undefined){

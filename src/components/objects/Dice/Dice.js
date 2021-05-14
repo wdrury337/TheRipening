@@ -31,8 +31,7 @@ class Dice extends Group {
         this.position.add(this.state.direction.clone().multiplyScalar(Global.DICE_MOVEMENT_SPEED));
         // this.rotateOnAxis(this.state.direction.clone().cross(this.up), Global.DICE_ROTATION_SPEED);
         
-        const diceBox = new Box3().setFromObject(this);
-        const enemy = intersectsEnemy(diceBox);
+        const enemy = intersectsEnemy(this);
         let wallContact = false;
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {
@@ -51,6 +50,11 @@ class Dice extends Group {
 
             if (enemy.state.health <= 0) {
                 Global.XP += enemy.state.xp;
+                Global.LEVEL_XP += enemy.state.xp;
+                if (Global.LEVEL_XP >= 40) {
+                    Global.LEVEL += 1; 
+                    Global.LEVEL_XP = 0;
+                }
                 Global.SPAWN = true;
                 Global.scene.remove(enemy);
                 let index = Global.enemies.indexOf(enemy);
