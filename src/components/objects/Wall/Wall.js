@@ -1,13 +1,9 @@
 import { 
-    Box3, 
     Mesh, 
     Vector3, 
-    DoubleSide, 
-    Object3D,
     MeshBasicMaterial, 
     PlaneGeometry,
     FrontSide,
-    ArrowHelper,
     Plane, 
     TextureLoader
 } from 'three';
