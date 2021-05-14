@@ -103,7 +103,6 @@ class Clock extends Group {
                     collision(this, n, Global.CLOCK_KICKBACK);
                     Global.CLOCK_HIT_COOLDOWN = 17;
                     this.state.health -= enemy.state.damage;
-                    console.log(this.state.health)
                 }
             }
 

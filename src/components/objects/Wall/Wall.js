@@ -29,11 +29,19 @@ class Wall extends Mesh {
 
 
     const textureLoader = new TextureLoader();
-
+    let texture;
     // load a texture
-    const texture = textureLoader.load(
-      '/src/components/objects/Wall/ripe.jpg',
-    );
+    console.log(Math.random())
+    if(Math.random() > .5){
+      texture = textureLoader.load(
+        '/src/components/objects/Wall/ripe.jpg',
+      );
+    }
+    else{
+      texture = textureLoader.load(
+        '/src/components/objects/Wall/avocadoripe.jpg',
+      );
+    } 
 
     // Create wall material 
     this.material = new MeshBasicMaterial({
@@ -52,11 +60,7 @@ class Wall extends Mesh {
     parent.add(this);
     
     // Used for colision detection
-    // let v1 = new Vector3(x - width/2, this.position.y-100, this.position.z);
-    // let v2 = new Vector3(x + width/2, this.position.y + 100, this.position.z + .1);
-
     let plane = new Plane(this.state.normal, this.state.dist);
-
     Global.walls.push(plane);
   }
 }
