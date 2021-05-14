@@ -29,12 +29,12 @@ class Wall extends Mesh {
     // load a texture
     if(Math.random() > .5){
       texture = textureLoader.load(
-        '/src/components/objects/Wall/ripe.jpg',
+        'https://github.com/wdrury337/TheRipening/tree/main/src/components/objects/Wall/ripe.jpg',
       );
     }
     else{
       texture = textureLoader.load(
-        '/src/components/objects/Wall/avocadoripe.jpg',
+        'https://github.com/wdrury337/TheRipening/tree/main/src/components/objects/Wall/avocadoripe.jpg',
       );
     } 
 
@@ -42,7 +42,6 @@ class Wall extends Mesh {
     this.material = new MeshBasicMaterial({
       color: hexColor,
       side: FrontSide,
-      map: texture
     });
 
     
