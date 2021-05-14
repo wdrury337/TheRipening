@@ -10,13 +10,12 @@ import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Clock } from 'objects';
 import { PlayScene } from 'scenes';
-import { Global, spawn } from './global';
+import { Global, spawn, restart } from './global';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import Dice from './components/objects/Dice/Dice';
 
-// Object loader
-const loader = new GLTFLoader();
-Global.loader = loader;
+// Global loaders and listener
+Global.loader = new GLTFLoader();
 
 // Camera
 const camera = new PerspectiveCamera();
@@ -78,6 +77,8 @@ const onAnimationFrameHandler = (timeStamp) => {
             break;
 
         case Global.DEFEAT:
+            restart();
+            controls.enableRotate = false;
             camera.position.set(0, 10, -70);
             controls.update();
             renderer.render(scene, camera);

@@ -48,7 +48,6 @@ class Banana extends Group {
         this.lookAt(Global.clock.position.clone());
         this.rotateOnAxis(this.up, this.state.rotationOffset);
 
-        
         // Wall intersection
         for (const wall of Global.walls) {
             if(intersectsWalls(new Box3().setFromObject(this), wall)) {

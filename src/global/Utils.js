@@ -64,7 +64,7 @@ function restart() {
     Global.level_xp = 0;
     Global.scene.updateList = [];
     Global.camera.lookAt(new Vector3(0,0,0));
-    for (const enemy of globals.enemies) {
+    for (const enemy of Global.enemies) {
         Global.scene.remove(enemy);
     }
     Global.enemies = [];

@@ -43,8 +43,6 @@ class Dice extends Group {
         // Test for enemy collision
         const enemy = intersectsEnemy(this);
         if (enemy !== undefined) {
-            let direction = enemy.position.clone().sub(Global.clock.position);
-            collision(enemy, direction, this.state.kickback);
             enemy.state.health -= Math.random() * 6;
 
             // Check if enemy dies
@@ -59,7 +57,7 @@ class Dice extends Group {
                 }
 
                 // Spawn new enemies
-                spawn();
+                spawn()
 
                 // Remove enemy from scene
                 Global.scene.remove(enemy);
@@ -69,6 +67,10 @@ class Dice extends Group {
                 if (index > -1) Global.scene.state.updateList.splice(index, 1);
             }
 
+            // Handle collision
+            let direction = enemy.position.clone().sub(Global.clock.position);
+            collision(enemy, direction, this.state.kickback);
+
             // Change enemy color based on amout of damage taken
             const factor = .5 * enemy.state.health / enemy.state.maxHealth + .5;
             for (let i = 0; i < enemy.children[0].children[0].children.length; i++) {
@@ -77,6 +79,12 @@ class Dice extends Group {
                     baseColor.r * factor, baseColor.g * factor, baseColor.b * factor
                 );
             }
+
+            // Remove dice from scene
+            Global.scene.remove(this);
+            let index = Global.scene.state.updateList.indexOf(this);
+            if (index > -1) Global.scene.state.updateList.splice(index, 1);
+            Global.scene.remove(this);
         }
     }
 }

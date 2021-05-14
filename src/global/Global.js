@@ -7,6 +7,7 @@ export default {
     camera: null,
     scene: null,
     clock: null,
+    loader: null,
 
     enemies: [],
     walls: [],

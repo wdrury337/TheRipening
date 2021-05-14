@@ -1,5 +1,5 @@
 import { Group, Box3, Vector3 } from 'three';
-import { Global, intersectsWalls, intersectsEnemy, collision, restart } from 'global';
+import { Global, intersectsWalls, intersectsEnemy, collision } from 'global';
 import { DefeatText } from 'objects';
 import MODEL from './clock.gltf';
 
@@ -47,20 +47,16 @@ class Clock extends Group {
             this.lookAt(new Vector3(0, 0, -70));
             this.rotateOnAxis(this.up, Global.CLOCK_ROTATION_OFFSET);
             this.state.velocity = new Vector3(0, 0, 0);
-            
             const text = new DefeatText(Global.scene);
             Global.scene.add(text);
-
-            restart();
+            Global.state = Global.DEFEAT;
         }
         else {
             const prevPosition = this.position.clone();
 
-            // Update clock to always face the camera position
-            const cameraXY = Global.camera.position.clone().setY(0); 
-            this.lookAt(cameraXY);
+            // Rotation
+            this.lookAt(Global.camera.position.clone().setY(0));
             this.rotateOnAxis(this.up, Global.CLOCK_ROTATION_OFFSET);
-
             const toClock = this.position.clone().sub(Global.camera.position);
             const dir = new Vector3(toClock.x, 0, toClock.z).normalize().multiplyScalar(this.state.speed);
 
@@ -84,7 +80,6 @@ class Clock extends Group {
             }
 
             const enemy = intersectsEnemy(this);
-            
             if (Global.clock_hit_cooldown == 0){
                 if (enemy !== undefined){
                     const n = prevPosition.clone().sub(enemy.position.clone());
@@ -101,7 +96,7 @@ class Clock extends Group {
                 if(intersectsWalls(new Box3().setFromObject(this), wall)) {
                     this.state.velocity = new Vector3();
                     collision(this, wall.normal, .24);
-                    //this.position.copy(prevPosition);
+                    this.position.copy(prevPosition);
                 }
             }
 
